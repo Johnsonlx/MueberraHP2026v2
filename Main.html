@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+
+<html lang="tr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Müberra Nutrition – Beslenme danışmanlığı, yoga, pilates ve sağlıklı yaşam." />
+  <title>Müberra Nutrition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F8F4EF; --bone: #EDE7DD; --sage: #6B9B70; --sage-dk: #456B49;
+      --sage-lt: #C5DECA; --earth: #A0785A; --charcoal: #252525; --dark: #1A1A1A;
+      --mist: #D4E6D7; --white: #FFFFFF; --text-sub: #666; --nav-h: 72px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--charcoal); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; display: block; }
+    a   { text-decoration: none; color: inherit; }
+
+
+/* LANGUAGE TOGGLE */
+[data-lang="en"] { display: none !important; }
+body.lang-en [data-lang="tr"] { display: none !important; }
+body.lang-en [data-lang="en"] { display: revert !important; }
+
+.lang-bar {
+  display: flex; align-items: center; gap: .3rem;
+  /* sits inside the nav flex row, no longer fixed/overlapping */
+}
+/* push nav CTA away from the lang-bar (lang-bar is ~70px wide) */
+nav { padding-right: max(clamp(1.25rem,5vw,4rem), 80px); }
+.lang-btn {
+  font-family: 'Nunito', sans-serif; font-size: .7rem; font-weight: 700;
+  letter-spacing: .1em; padding: .28rem .65rem; border: 1.5px solid transparent;
+  background: none; cursor: pointer; border-radius: 2px; transition: all .2s; color: var(--charcoal);
+}
+.lang-btn.active { background: var(--sage); color: var(--white); border-color: var(--sage); }
+.lang-btn:not(.active):hover { border-color: var(--sage); color: var(--sage); }
+.lang-sep { font-size: .6rem; color: #bbb; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h); display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(1.25rem,5vw,4rem); transition: background .4s, box-shadow .4s;
+}
+nav.scrolled {
+  background: rgba(248,244,239,.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 var(--bone);
+}
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 600; letter-spacing: .04em; color: var(--charcoal); white-space: nowrap; }
+.nav-logo span { color: var(--sage); }
+.nav-links { display: flex; gap: clamp(1.2rem,2.5vw,2.5rem); list-style: none; }
+.nav-links a { font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 500; color: var(--charcoal); position: relative; padding-bottom: 2px; }
+.nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px; background: var(--sage); transition: width .28s; }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; padding: .52rem 1.35rem; border: 1.5px solid var(--sage); color: var(--sage); background: transparent; cursor: pointer; transition: all .22s; white-space: nowrap; }
+.nav-cta:hover { background: var(--sage); color: var(--white); }
+.burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 101; }
+.burger span { display: block; width: 24px; height: 2px; background: var(--charcoal); border-radius: 2px; transition: all .3s; }
+.burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+/* Mobile drawer — dark background so text is always readable */
+.mobile-menu {
+  display: none; position: fixed; top: var(--nav-h); right: 0; bottom: 0; left: 0;
+  background: var(--dark);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 1.6rem; z-index: 99; opacity: 0; transform: translateY(-8px); transition: opacity .3s, transform .3s;
+}
+.mobile-menu.open { display: flex; opacity: 1; transform: translateY(0); }
+.mobile-menu a { font-size: 1.5rem; font-family: 'Cormorant Garamond', serif; color: var(--cream); font-weight: 400; letter-spacing: .04em; }
+.mobile-menu a:hover, .mobile-menu a:active { color: var(--sage); }
+
+/* HERO */
+.hero {
+  min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+  padding: calc(var(--nav-h) + 2rem) clamp(1.25rem,5vw,4rem) 4rem;
+  gap: clamp(2rem,5vw,5rem); position: relative; overflow: hidden;
+  background: linear-gradient(140deg, var(--cream) 40%, var(--mist) 100%);
+}
+.hero-blob { position: absolute; right: -10%; top: 15%; width: min(560px,55vw); aspect-ratio: 1; background: radial-gradient(circle, var(--sage-lt) 0%, transparent 68%); border-radius: 50%; opacity: .55; pointer-events: none; }
+.hero-dots { position: absolute; left: 2%; bottom: 10%; width: 160px; height: 160px; background-image: radial-gradient(circle, var(--sage) 1.2px, transparent 1.2px); background-size: 18px 18px; opacity: .18; pointer-events: none; }
+.hero-content { position: relative; z-index: 1; }
+.hero-tag { display: inline-flex; align-items: center; gap: .6rem; font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 600; color: var(--sage-dk); margin-bottom: 1.3rem; }
+.hero-tag::before { content: ''; display: block; width: 26px; height: 1.5px; background: var(--sage-dk); }
+.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem,5.5vw,5rem); font-weight: 300; line-height: 1.1; color: var(--charcoal); margin-bottom: 1.3rem; }
+.hero h1 em { font-style: italic; color: var(--sage); }
+.hero-desc { font-size: clamp(.83rem,1.4vw,.93rem); line-height: 1.88; color: var(--text-sub); max-width: 420px; margin-bottom: 2.3rem; }
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary { padding: .8rem 2rem; background: var(--sage); color: var(--white); font-size: .73rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; transition: background .22s, transform .2s; display: inline-block; white-space: nowrap; }
+.btn-primary:hover { background: var(--sage-dk); transform: translateY(-2px); }
+.btn-outline { padding: .8rem 2rem; border: 1.5px solid var(--charcoal); color: var(--charcoal); font-size: .73rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; transition: all .22s; display: inline-block; white-space: nowrap; }
+.btn-outline:hover { background: var(--charcoal); color: var(--white); }
+.hero-visual { position: relative; z-index: 1; }
+.hero-img-wrap { width: 100%; aspect-ratio: 4/5; overflow: hidden; }
+.hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 9s ease; }
+.hero-img-wrap:hover img { transform: scale(1.04); }
+.hero-badge { position: absolute; bottom: -1.2rem; left: -1.5rem; background: var(--white); padding: 1rem 1.4rem; box-shadow: 0 10px 40px rgba(0,0,0,.1); }
+.hero-badge strong { display: block; font-size: 2rem; font-family: 'Cormorant Garamond', serif; color: var(--sage-dk); line-height: 1; }
+.hero-badge span { font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: #999; margin-top: .2rem; display: block; }
+.scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .4rem; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: #aaa; animation: nudge 2.8s ease-in-out infinite; }
+.scroll-hint::after { content: ''; display: block; width: 1px; height: 36px; background: var(--sage); }
+@keyframes nudge { 0%,100%{transform:translateX(-50%) translateY(0)} 55%{transform:translateX(-50%) translateY(7px)} }
+
+/* STATS */
+.stats { display: grid; grid-template-columns: repeat(4,1fr); background: var(--dark); padding: clamp(1.5rem,4vw,3rem) clamp(1.25rem,5vw,4rem); }
+.stat-item { text-align: center; padding: .5rem 1rem; border-right: 1px solid rgba(255,255,255,.08); }
+.stat-item:last-child { border-right: none; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3rem); color: var(--sage); line-height: 1; }
+.stat-label { font-size: clamp(.58rem,.9vw,.7rem); letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.42); margin-top: .35rem; }
+
+/* SHARED */
+.section { padding: clamp(3.5rem,8vw,6.5rem) clamp(1.25rem,5vw,4rem); }
+.tag { display: inline-flex; align-items: center; gap: .5rem; font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: var(--earth); margin-bottom: .8rem; }
+.tag::before { content: ''; display: block; width: 18px; height: 1.5px; background: var(--earth); }
+.sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3.3rem); font-weight: 300; line-height: 1.15; color: var(--charcoal); margin-bottom: 1rem; }
+.sec-title em { font-style: italic; color: var(--sage); }
+
+/* SERVICES */
+.services { background: var(--bone); }
+.services-head { max-width: 580px; margin-bottom: clamp(2rem,4vw,3.5rem); }
+.services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: #d0ccc6; }
+.srv-card { background: var(--white); padding: clamp(1.5rem,3vw,2.5rem) clamp(1.2rem,2.5vw,2rem); position: relative; overflow: hidden; cursor: pointer; transition: background .28s; display: block; }
+.srv-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--sage); transform: scaleX(0); transform-origin: left; transition: transform .32s; }
+.srv-card:hover::before { transform: scaleX(1); }
+.srv-card:hover { background: var(--cream); }
+.srv-icon { font-size: 1.8rem; margin-bottom: .9rem; display: block; }
+.srv-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: .6rem; color: var(--charcoal); }
+.srv-card p { font-size: .8rem; line-height: 1.82; color: var(--text-sub); }
+.srv-more { margin-top: 1.2rem; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--sage); display: flex; align-items: center; gap: .35rem; font-weight: 700; transition: gap .2s; }
+.srv-card:hover .srv-more { gap: .7rem; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem,6vw,6rem); align-items: center; }
+.about-img-wrap { position: relative; }
+.about-img-wrap img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+.about-deco1 { position: absolute; top: -1.5rem; left: -1.5rem; width: 70px; height: 70px; border: 2px solid var(--sage); z-index: -1; }
+.about-deco2 { position: absolute; bottom: -1.5rem; right: -1.5rem; width: 110px; height: 110px; background: var(--mist); z-index: -1; }
+.about-txt { font-size: clamp(.8rem,1.4vw,.88rem); line-height: 1.92; color: var(--text-sub); margin-bottom: 1.2rem; }
+.check-list { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 2rem; }
+.check-item { display: flex; align-items: center; gap: .7rem; font-size: .8rem; color: var(--charcoal); }
+.check-item::before { content: '✓'; width: 20px; height: 20px; background: var(--sage); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: .62rem; flex-shrink: 0; }
+
+/* TOPICS */
+.topics { background: var(--cream); }
+.topics-intro { max-width: 520px; margin-bottom: clamp(2rem,4vw,3.5rem); }
+.topics-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+.topic-card { position: relative; overflow: hidden; cursor: pointer; display: block; background: none; border: none; padding: 0; text-align: left; }
+.topic-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; display: block; min-height: 200px; }
+.topic-card:hover img { transform: scale(1.07); }
+.topic-card:nth-child(1) { grid-column: span 2; aspect-ratio: 16/8; }
+.topic-card:not(:nth-child(1)) { aspect-ratio: 4/3; }
+.t-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(25,35,25,.82) 0%, transparent 55%); display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(1rem,2vw,1.4rem); }
+.t-label { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--sage-lt); margin-bottom: .3rem; }
+.t-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem,2.5vw,1.6rem); color: var(--white); font-weight: 400; line-height: 1.15; }
+
+/* QUOTE */
+.philosophy { background: var(--sage-dk); text-align: center; padding: clamp(3.5rem,8vw,6rem) clamp(1.25rem,8vw,8rem); }
+.philosophy blockquote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem,3.5vw,2.8rem); font-weight: 300; font-style: italic; line-height: 1.42; color: var(--cream); max-width: 780px; margin: 0 auto 1.2rem; }
+.philosophy cite { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--sage-lt); opacity: .75; }
+
+/* TIPS */
+.tips-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: clamp(1rem,2vw,2rem); margin-top: clamp(2rem,4vw,3.5rem); }
+.tip-card { padding: clamp(1.2rem,2.5vw,2rem) clamp(1rem,2vw,1.8rem); border: 1px solid var(--bone); transition: border-color .28s, transform .28s; }
+.tip-card:hover { border-color: var(--sage); transform: translateY(-4px); }
+.tip-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--bone); line-height: 1; margin-bottom: .5rem; }
+.tip-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; margin-bottom: .5rem; color: var(--charcoal); }
+.tip-card p { font-size: .77rem; line-height: 1.82; color: var(--text-sub); }
+
+/* TOPIC POPUP MODAL */
+.modal-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(20,30,20,.55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  align-items: center; justify-content: center; padding: 1.5rem;
+}
+.modal-backdrop.open { display: flex; }
+.modal-box {
+  background: var(--white); max-width: 520px; width: 100%;
+  padding: clamp(1.8rem,5vw,3rem); position: relative;
+  animation: modalIn .28s ease; max-height: 90vh; overflow-y: auto;
+}
+@keyframes modalIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; cursor: pointer; font-size: 1.5rem; color: #aaa; line-height: 1; transition: color .2s; padding: .2rem; }
+.modal-close:hover { color: var(--charcoal); }
+.modal-icon { font-size: 2rem; margin-bottom: .7rem; display: block; }
+.modal-cat { font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--earth); font-weight: 700; margin-bottom: .4rem; display: block; }
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem,4vw,2.1rem); font-weight: 300; color: var(--charcoal); margin-bottom: 1rem; line-height: 1.15; }
+.modal-body { font-size: .84rem; line-height: 1.88; color: var(--text-sub); }
+.modal-body p { margin-bottom: .7rem; }
+.modal-body ul { padding-left: 1.2rem; margin-bottom: .7rem; }
+.modal-body li { margin-bottom: .3rem; }
+.modal-cta { margin-top: 1.4rem; display: inline-block; }
+
+/* CONTACT */
+.contact { background: var(--dark); color: var(--white); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,6vw,5rem); align-items: start; }
+.contact h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3.2rem); font-weight: 300; line-height: 1.2; color: var(--cream); margin-bottom: .9rem; }
+.contact > div > p { font-size: clamp(.78rem,1.3vw,.86rem); line-height: 1.88; color: rgba(255,255,255,.48); margin-bottom: 1.8rem; }
+.social-row { display: flex; gap: .7rem; flex-wrap: wrap; }
+.soc-btn { padding: .5rem 1.1rem; border: 1px solid rgba(255,255,255,.18); color: rgba(255,255,255,.62); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; transition: all .22s; font-weight: 600; }
+.soc-btn:hover { border-color: var(--sage); color: var(--sage); }
+.c-form { display: flex; flex-direction: column; gap: .85rem; }
+.c-form input, .c-form textarea { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: var(--white); padding: .78rem 1rem; font-family: 'Nunito', sans-serif; font-size: .82rem; transition: border-color .22s; resize: none; outline: none; }
+.c-form input::placeholder, .c-form textarea::placeholder { color: rgba(255,255,255,.28); }
+.c-form input:focus, .c-form textarea:focus { border-color: var(--sage); }
+.c-form textarea { height: 108px; }
+.c-form button { padding: .82rem; background: var(--sage); border: none; color: var(--white); font-family: 'Nunito', sans-serif; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: background .22s; }
+.c-form button:hover { background: var(--sage-dk); }
+
+/* FOOTER */
+footer {
+  background: #111;
+  padding: 2rem clamp(1.25rem,5vw,4rem) 1.2rem;
+}
+.footer-links {
+  display: flex; flex-wrap: wrap; gap: .6rem 1.4rem;
+  justify-content: center; margin-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,.08); padding-bottom: 1.2rem;
+}
+.footer-links a { font-size: .7rem; letter-spacing: .08em; color: rgba(255,255,255,.45); text-transform: uppercase; transition: color .2s; }
+.footer-links a:hover { color: var(--sage); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .4rem; font-size: .67rem; letter-spacing: .04em; color: rgba(255,255,255,.28); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .62s ease, transform .62s ease; }
+.reveal.up { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE 1100px ── */
+@media (max-width: 1100px) {
+  .services-grid { grid-template-columns: repeat(2,1fr); }
+  .tips-grid { grid-template-columns: repeat(2,1fr); }
+}
+
+/* ── RESPONSIVE 880px  (tablet + mobile) ── */
+@media (max-width: 880px) {
+  :root { --nav-h: 60px; }
+
+  /* NAV: logo left, lang-bar centre-right, burger far right */
+  nav {
+    padding: 0 1rem;
+    gap: .5rem;
+  }
+  nav .nav-links  { display: none; }
+  nav .nav-cta    { display: none !important; }
+
+  .lang-bar { gap: .15rem; order: 2; margin-left: auto; }
+  .lang-btn  { padding: .2rem .45rem; font-size: .65rem; }
+  .lang-sep  { font-size: .55rem; }
+
+  .burger { display: flex; order: 3; margin-left: .5rem; }
+  /* When menu is open: nav gets dark bg so burger (X) is always visible */
+  nav.menu-open {
+    background: #1c1c1c !important;
+    box-shadow: none;
+  }
+  .burger span { background: var(--charcoal); transition: background .2s; }
+  .burger.open span { background: var(--white); }
+  /* Make burger larger on mobile for easier tap */
+  .burger { padding: 6px; }
+  .burger span { width: 26px; height: 2.5px; }
+
+  /* Mobile drawer */
+  .mobile-menu {
+    top: var(--nav-h);
+    background: #1c1c1c;
+  }
+  .mobile-menu a {
+    font-size: 1.4rem;
+    color: #f0ebe3;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    width: 80%; text-align: center; padding-bottom: .6rem;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover, .mobile-menu a:active { color: var(--sage); }
+
+  /* HERO */
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: calc(var(--nav-h) + 2.5rem) 1.25rem 3rem;
+    text-align: center;
+    gap: 2rem;
+  }
+  .hero-tag  { justify-content: center; }
+  .hero-btns { justify-content: center; flex-wrap: wrap; }
+  .hero-desc { margin-inline: auto; max-width: 100%; }
+  .hero-visual, .scroll-hint, .hero-dots, .hero-blob { display: none; }
+
+  /* STATS */
+  .stats { grid-template-columns: repeat(2,1fr); padding: 1.5rem 1.25rem; }
+  .stat-item { padding: .6rem .5rem; }
+  .stat-item:nth-child(2) { border-right: none; }
+  .stat-item:nth-child(3) { border-top: 1px solid rgba(255,255,255,.08); border-right: 1px solid rgba(255,255,255,.08); }
+  .stat-item:nth-child(4) { border-top: 1px solid rgba(255,255,255,.08); border-right: none; }
+
+  /* SERVICES */
+  .services-grid { grid-template-columns: 1fr; }
+
+  /* ABOUT */
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .about-img-wrap img { aspect-ratio: 16/9; }
+  .about-deco1, .about-deco2 { display: none; }
+
+  /* TOPICS */
+  .topics-grid { grid-template-columns: 1fr; gap: .75rem; }
+  .topic-card:nth-child(1) { grid-column: span 1; aspect-ratio: 16/9; }
+  .topic-card:not(:nth-child(1)) { aspect-ratio: 16/9; }
+
+  /* TIPS */
+  .tips-grid { grid-template-columns: repeat(2,1fr); }
+
+  /* CONTACT */
+  .contact { grid-template-columns: 1fr; gap: 2rem; }
+
+  /* FOOTER */
+  .footer-bottom { justify-content: center; text-align: center; }
+}
+
+/* ── RESPONSIVE 600px (phone) ── */
+@media (max-width: 600px) {
+  .section { padding: 2.8rem 1.1rem; }
+  .tips-grid { grid-template-columns: 1fr; }
+  .hero h1  { font-size: clamp(2rem, 9vw, 2.8rem); }
+  .stats    { grid-template-columns: repeat(2,1fr); }
+  .footer-links { gap: .5rem 1rem; }
+}
+
+/* ── RESPONSIVE 380px (small phone) ── */
+@media (max-width: 380px) {
+  .hero-btns { flex-direction: column; align-items: center; }
+  .btn-primary, .btn-outline { width: 100%; text-align: center; }
+  .lang-btn { padding: .18rem .38rem; font-size: .6rem; }
+}
+
+
+
+/* ═══ LEGAL PANEL (slide-up sheet) ═══════════════════════════════ */
+.legal-overlay {
+  position: fixed; inset: 0; z-index: 600;
+  background: rgba(15,20,15,.55);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .35s ease;
+}
+.legal-overlay.open { opacity: 1; pointer-events: all; }
+
+.legal-panel {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 601;
+  background: var(--cream);
+  max-height: 88vh;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -8px 60px rgba(0,0,0,.22);
+  display: flex; flex-direction: column;
+  transform: translateY(100%);
+  transition: transform .42s cubic-bezier(.4,0,.2,1);
+}
+.legal-panel.open { transform: translateY(0); }
+
+.legal-panel-handle {
+  width: 40px; height: 4px; border-radius: 2px;
+  background: var(--bone); margin: 14px auto 0; flex-shrink: 0; cursor: pointer;
+}
+.legal-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 2rem 1rem; border-bottom: 1px solid var(--bone); flex-shrink: 0;
+}
+.legal-panel-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.4rem,3vw,1.9rem); font-weight: 300; color: var(--charcoal);
+}
+.legal-panel-close {
+  background: none; border: none; cursor: pointer;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; color: var(--text-sub);
+  transition: background .2s, color .2s;
+}
+.legal-panel-close:hover { background: var(--bone); color: var(--charcoal); }
+
+.legal-panel-body {
+  overflow-y: auto; padding: 1.8rem 2rem 3rem;
+  font-size: .86rem; line-height: 1.88; color: var(--text-sub);
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+.legal-panel-body h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 400; color: var(--charcoal);
+  margin: 1.4rem 0 .5rem;
+}
+.legal-panel-body h3:first-child { margin-top: 0; }
+.legal-panel-body p { margin-bottom: .7rem; }
+.legal-panel-body ul { padding-left: 1.3rem; margin-bottom: .8rem; }
+.legal-panel-body li { margin-bottom: .35rem; }
+.legal-panel-body strong { color: var(--charcoal); font-weight: 600; }
+.legal-panel-body a { color: var(--sage-dk); text-decoration: underline; }
+
+/* FAQ accordion */
+.faq-item { border-bottom: 1px solid var(--bone); }
+.faq-q {
+  width: 100%; background: none; border: none; text-align: left;
+  padding: 1rem 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  font-family: 'Nunito', sans-serif; font-size: .87rem; font-weight: 600;
+  color: var(--charcoal); transition: color .2s;
+}
+.faq-q:hover { color: var(--sage-dk); }
+.faq-q .faq-icon {
+  font-size: 1.1rem; line-height: 1; flex-shrink: 0;
+  color: var(--sage); transition: transform .28s;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s cubic-bezier(.4,0,.2,1), padding .3s;
+  font-size: .83rem; color: var(--text-sub); line-height: 1.82;
+}
+.faq-item.open .faq-a { max-height: 400px; padding-bottom: 1rem; }
+
+@media (max-width: 600px) {
+  .legal-panel-body { padding: 1.4rem 1.2rem 3rem; }
+  .legal-panel-header { padding: 1rem 1.2rem .8rem; }
+}
+  </style>
+</head>
+<body>
+
+<!-- ════════════ NAV ════════════ -->
+
+<nav id="navbar">
+  <a class="nav-logo" href="#">Müberra <span>Nutrition</span></a>
+  <ul class="nav-links">
+    <li><a href="#services" data-lang="tr">Hizmetler</a>  <a href="#services" data-lang="en">Services</a></li>
+    <li><a href="#about"    data-lang="tr">Hakkımda</a>   <a href="#about"    data-lang="en">About</a></li>
+    <li><a href="#topics"   data-lang="tr">Konular</a>    <a href="#topics"   data-lang="en">Topics</a></li>
+    <li><a href="#tips"     data-lang="tr">İpuçları</a>   <a href="#tips"     data-lang="en">Tips</a></li>
+  </ul>
+  <!-- CTA first, lang switcher second (rightmost) -->
+  <a href="#contact" class="nav-cta" data-lang="tr">Randevu Al</a>
+  <a href="#contact" class="nav-cta" data-lang="en">Book Now</a>
+  <div class="lang-bar">
+    <button class="lang-btn active" id="btnTR" onclick="setLang('tr')">TR</button>
+    <span class="lang-sep">|</span>
+    <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+  </div>
+  <button class="burger" id="burger" aria-label="Menü"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- Mobile drawer -->
+
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMobile()" data-lang="tr">Hizmetler</a>
+  <a href="#services" onclick="closeMobile()" data-lang="en">Services</a>
+  <a href="#about"    onclick="closeMobile()" data-lang="tr">Hakkımda</a>
+  <a href="#about"    onclick="closeMobile()" data-lang="en">About</a>
+  <a href="#topics"   onclick="closeMobile()" data-lang="tr">Konular</a>
+  <a href="#topics"   onclick="closeMobile()" data-lang="en">Topics</a>
+  <a href="#tips"     onclick="closeMobile()" data-lang="tr">İpuçları</a>
+  <a href="#tips"     onclick="closeMobile()" data-lang="en">Tips</a>
+  <a href="#contact"  onclick="closeMobile()" data-lang="tr">İletişim</a>
+  <a href="#contact"  onclick="closeMobile()" data-lang="en">Contact</a>
+</nav>
+
+<!-- ════════════ HERO ════════════ -->
+
+<section class="hero" id="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-content reveal">
+    <div class="hero-tag" data-lang="tr">Beslenme Danışmanlığı &amp; Sağlıklı Yaşam</div>
+    <div class="hero-tag" data-lang="en">Nutrition Consulting &amp; Healthy Living</div>
+    <h1 data-lang="tr">Sağlıklı bir hayat<br>için <em>birlikte</em><br>yol alalım</h1>
+    <h1 data-lang="en">Let's walk together<br>towards a <em>healthier</em><br>life</h1>
+    <p class="hero-desc" data-lang="tr">Beslenme danışmanlığı, yoga, pilates ve hareketle hayatınıza denge ve enerji katıyorum. Kalıcı değişimler için bilimsel ve doğal bir yaklaşım.</p>
+    <p class="hero-desc" data-lang="en">I bring balance and energy to your life through nutrition consulting, yoga, pilates and movement. A scientific and natural approach for lasting change.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary" data-lang="tr">Ücretsiz Danışın</a>
+      <a href="#topics"  class="btn-outline" data-lang="tr">Daha Fazla Keşfet</a>
+      <a href="#contact" class="btn-primary" data-lang="en">Free Consultation</a>
+      <a href="#topics"  class="btn-outline" data-lang="en">Explore More</a>
+    </div>
+  </div>
+  <div class="hero-visual reveal">
+    <div class="hero-img-wrap">
+      <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=700&q=80" alt="Sağlıklı Beslenme" loading="eager"/>
+    </div>
+    <div class="hero-badge">
+      <strong>200+</strong>
+      <span data-lang="tr">Mutlu Danışan</span>
+      <span data-lang="en">Happy Clients</span>
+    </div>
+  </div>
+  <div class="scroll-hint" data-lang="tr">Kaydır</div>
+  <div class="scroll-hint" data-lang="en">Scroll</div>
+</section>
+
+<!-- ════════════ STATS ════════════ -->
+
+<div class="stats">
+  <div class="stat-item reveal">
+    <div class="stat-num">8+</div>
+    <div class="stat-label" data-lang="tr">Yıl Deneyim</div>
+    <div class="stat-label" data-lang="en">Years Experience</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">200+</div>
+    <div class="stat-label" data-lang="tr">Danışan</div>
+    <div class="stat-label" data-lang="en">Clients</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">6</div>
+    <div class="stat-label" data-lang="tr">Uzmanlık Alanı</div>
+    <div class="stat-label" data-lang="en">Areas of Expertise</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">98%</div>
+    <div class="stat-label" data-lang="tr">Memnuniyet</div>
+    <div class="stat-label" data-lang="en">Satisfaction</div>
+  </div>
+</div>
+
+<!-- ════════════ SERVICES ════════════ -->
+
+<section class="section services" id="services">
+  <div class="services-head reveal">
+    <div class="tag" data-lang="tr">Hizmetler</div>
+    <div class="tag" data-lang="en">Services</div>
+    <h2 class="sec-title" data-lang="tr">Sağlığınız için<br>bütüncül bir <em>yaklaşım</em></h2>
+    <h2 class="sec-title" data-lang="en">A holistic <em>approach</em><br>to your health</h2>
+  </div>
+  <div class="services-grid">
+    <a href="#contact" class="srv-card reveal">
+      <span class="srv-icon">🌿</span>
+      <h3 data-lang="tr">Beslenme Danışmanlığı</h3>  <h3 data-lang="en">Nutrition Consulting</h3>
+      <p data-lang="tr">Yaşam tarzınıza uygun, bilimsel temelli kişisel beslenme planları. Kalıcı ve sürdürülebilir sonuçlar için.</p>
+      <p data-lang="en">Personalised, science-based nutrition plans suited to your lifestyle. For lasting and sustainable results.</p>
+      <div class="srv-more" data-lang="tr">Daha fazla →</div>
+      <div class="srv-more" data-lang="en">Learn more →</div>
+    </a>
+    <a href="#contact" class="srv-card reveal">
+      <span class="srv-icon">🧘</span>
+      <h3 data-lang="tr">Yoga &amp; Meditasyon</h3>  <h3 data-lang="en">Yoga &amp; Meditation</h3>
+      <p data-lang="tr">Beden farkındalığını geliştirin, zihninizi sakinleştirin. Her seviyeye uygun yoga seansları.</p>
+      <p data-lang="en">Develop body awareness and calm your mind. Yoga sessions for every level.</p>
+      <div class="srv-more" data-lang="tr">Daha fazla →</div>
+      <div class="srv-more" data-lang="en">Learn more →</div>
+    </a>
+    <a href="#contact" class="srv-card reveal">
+      <span class="srv-icon">🏃</span>
+      <h3 data-lang="tr">Hareket &amp; Spor</h3>  <h3 data-lang="en">Movement &amp; Sport</h3>
+      <p data-lang="tr">Pilates, fonksiyonel antrenman ve daha fazlası. Her fitness seviyesine özel programlar.</p>
+      <p data-lang="en">Pilates, functional training and more. Custom programmes for every fitness level.</p>
+      <div class="srv-more" data-lang="tr">Daha fazla →</div>
+      <div class="srv-more" data-lang="en">Learn more →</div>
+    </a>
+    <a href="#contact" class="srv-card reveal">
+      <span class="srv-icon">🍎</span>
+      <h3 data-lang="tr">Süper Gıdalar</h3>  <h3 data-lang="en">Superfoods &amp; Nutrients</h3>
+      <p data-lang="tr">Hangi besinlerin vücudunuzu en iyi şekilde beslediğini öğrenin ve günlük hayatınıza entegre edin.</p>
+      <p data-lang="en">Learn which foods nourish your body best and how to integrate them into daily life.</p>
+      <div class="srv-more" data-lang="tr">Daha fazla →</div>
+      <div class="srv-more" data-lang="en">Learn more →</div>
+    </a>
+    <a href="#contact" class="srv-card reveal">
+      <span class="srv-icon">💡</span>
+      <h3 data-lang="tr">Beslenme Mitleri</h3>  <h3 data-lang="en">Nutrition Myths</h3>
+      <p data-lang="tr">Yaygın beslenme yanılgılarını bilimsel gerçeklerle çürütüyoruz. Doğru bilgiyle doğru seçimler.</p>
+      <p data-lang="en">We debunk common nutrition myths with scientific facts. Right choices with the right knowledge.</p>
+      <div class="srv-more" data-lang="tr">Daha fazla →</div>
+      <div class="srv-more" data-lang="en">Learn more →</div>
+    </a>
+    <a href="#contact" class="srv-card reveal">
+      <span class="srv-icon">📅</span>
+      <h3 data-lang="tr">Kişisel Seans</h3>  <h3 data-lang="en">Personal Session</h3>
+      <p data-lang="tr">Online veya yüz yüze – ilk ücretsiz tanışma seansınızı hemen rezerve edin.</p>
+      <p data-lang="en">Online or in-person – book your first free introductory session now.</p>
+      <div class="srv-more" data-lang="tr">Randevu Al →</div>
+      <div class="srv-more" data-lang="en">Book Now →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ════════════ ABOUT ════════════ -->
+
+<section class="section" id="about">
+  <div class="about-grid">
+    <div class="about-img-wrap reveal">
+      <div class="about-deco1"></div><div class="about-deco2"></div>
+      <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80" alt="Müberra" loading="lazy"/>
+    </div>
+    <div class="reveal">
+      <div class="tag" data-lang="tr">Hakkımda</div>  <div class="tag" data-lang="en">About Me</div>
+      <h2 class="sec-title" data-lang="tr">Beslenme yemekten<br>çok daha fazlası —<br><em>bir yaşam biçimi</em></h2>
+      <h2 class="sec-title" data-lang="en">Nutrition is more<br>than food —<br><em>it's a lifestyle</em></h2>
+      <p class="about-txt" data-lang="tr">Ben Müberra — sertifikalı beslenme danışmanı ve wellness koçuyum. Tutkum, insanlara daha sağlıklı ve dolu bir hayata giden yollarında eşlik etmek.</p>
+      <p class="about-txt" data-lang="en">I'm Müberra — a certified nutritionist and wellness coach. My passion is accompanying people on their path to a healthier, more fulfilling life.</p>
+      <p class="about-txt" data-lang="tr">Bütüncül yaklaşımımla beslenme bilgisini, hareketi ve zihinsel sağlığı bir araya getiriyorum — gerçekten işe yarayan kalıcı değişimler için.</p>
+      <p class="about-txt" data-lang="en">With my holistic approach I combine nutritional knowledge, movement and mental wellbeing — for lasting changes that truly work.</p>
+      <div class="check-list">
+        <div class="check-item" data-lang="tr">Sertifikalı Beslenme Danışmanı</div>  <div class="check-item" data-lang="en">Certified Nutritionist</div>
+        <div class="check-item" data-lang="tr">Yoga &amp; Pilates Eğitmeni</div>       <div class="check-item" data-lang="en">Yoga &amp; Pilates Instructor</div>
+        <div class="check-item" data-lang="tr">Bağırsak Sağlığı Uzmanı</div>         <div class="check-item" data-lang="en">Gut Health Specialist</div>
+        <div class="check-item" data-lang="tr">Bireysel, Uygulanabilir Yaklaşımlar</div><div class="check-item" data-lang="en">Individual, Practical Approaches</div>
+      </div>
+      <a href="#contact" class="btn-primary" data-lang="tr">Tanışalım</a>
+      <a href="#contact" class="btn-primary" data-lang="en">Let's Connect</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ TOPICS ════════════ -->
+
+<section class="section topics" id="topics">
+  <div class="topics-intro reveal">
+    <div class="tag" data-lang="tr">Konu Alanları</div>  <div class="tag" data-lang="en">Topic Areas</div>
+    <h2 class="sec-title" data-lang="tr">Sağlık &amp; Beslenme<br>dünyasını <em>keşfedin</em></h2>
+    <h2 class="sec-title" data-lang="en">Discover the world of<br>health &amp; <em>nutrition</em></h2>
+  </div>
+  <div class="topics-grid">
+    <button class="topic-card reveal" onclick="openTopic(0)">
+      <img src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=900&q=80" alt="Beslenme" loading="lazy"/>
+      <div class="t-overlay">
+        <div class="t-label" data-lang="tr">Temel Bilgi</div>        <div class="t-label" data-lang="en">Fundamentals</div>
+        <div class="t-title" data-lang="tr">Günlük Hayatta Sağlıklı Beslenme</div>
+        <div class="t-title" data-lang="en">Healthy Eating in Everyday Life</div>
+      </div>
+    </button>
+    <button class="topic-card reveal" onclick="openTopic(1)">
+      <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80" alt="Yoga" loading="lazy"/>
+      <div class="t-overlay">
+        <div class="t-label" data-lang="tr">Hareket</div>  <div class="t-label" data-lang="en">Movement</div>
+        <div class="t-title" data-lang="tr">Yoga</div>     <div class="t-title" data-lang="en">Yoga</div>
+      </div>
+    </button>
+    <button class="topic-card reveal" onclick="openTopic(2)">
+      <img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=600&q=80" alt="Superfoods" loading="lazy"/>
+      <div class="t-overlay">
+        <div class="t-label" data-lang="tr">Besin Değerleri</div>  <div class="t-label" data-lang="en">Nutrients</div>
+        <div class="t-title" data-lang="tr">Süper Gıdalar &amp; Vitaminler</div>
+        <div class="t-title" data-lang="en">Superfoods &amp; Vitamins</div>
+      </div>
+    </button>
+    <button class="topic-card reveal" onclick="openTopic(3)">
+      <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80" alt="Pilates" loading="lazy"/>
+      <div class="t-overlay">
+        <div class="t-label" data-lang="tr">Hareket</div>     <div class="t-label" data-lang="en">Movement</div>
+        <div class="t-title" data-lang="tr">Pilates</div>     <div class="t-title" data-lang="en">Pilates</div>
+      </div>
+    </button>
+    <button class="topic-card reveal" onclick="openTopic(4)">
+      <img src="https://images.unsplash.com/photo-1543362906-acfc16c67564?w=800&q=80" alt="Mitler" loading="lazy"/>
+      <div class="t-overlay">
+        <div class="t-label" data-lang="tr">Bilgilendirme</div>  <div class="t-label" data-lang="en">Education</div>
+        <div class="t-title" data-lang="tr">Beslenme Yanlışları &amp; Mitler</div>
+        <div class="t-title" data-lang="en">Nutrition Myths &amp; Misconceptions</div>
+      </div>
+    </button>
+  </div>
+</section>
+
+<!-- ════════════ QUOTE ════════════ -->
+
+<section class="philosophy reveal">
+  <blockquote data-lang="tr">«Beden ruhun evidir — onu sevgi ve bilinçle besleyelim.»</blockquote>
+  <blockquote data-lang="en">«The body is the home of the soul — let us nourish it with love and awareness.»</blockquote>
+  <cite>— Müberra Nutrition</cite>
+</section>
+
+<!-- ════════════ TIPS ════════════ -->
+
+<section class="section" id="tips">
+  <div class="reveal">
+    <div class="tag" data-lang="tr">Günlük İpuçları</div>  <div class="tag" data-lang="en">Daily Tips</div>
+    <h2 class="sec-title" data-lang="tr">Küçük adımlar,<br>büyük <em>fark</em></h2>
+    <h2 class="sec-title" data-lang="en">Small steps,<br>big <em>difference</em></h2>
+  </div>
+  <div class="tips-grid">
+    <div class="tip-card reveal">
+      <div class="tip-num">01</div>
+      <h4 data-lang="tr">Daha Fazla Su İçin</h4>      <h4 data-lang="en">Drink More Water</h4>
+      <p data-lang="tr">Güne limonlu ılık su ile başlayın. Günde 2–3 litre su metabolizmanızı ve konsantrasyonunuzu canlı tutar.</p>
+      <p data-lang="en">Start the day with warm lemon water. 2–3 litres daily keeps your metabolism and focus sharp.</p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="tip-num">02</div>
+      <h4 data-lang="tr">Renkli Beslenin</h4>          <h4 data-lang="en">Eat the Rainbow</h4>
+      <p data-lang="tr">Tabağınız ne kadar renkli olursa o kadar çok vitamin ve antioksidan alırsınız. Günde en az 5 farklı rengi hedefleyin.</p>
+      <p data-lang="en">The more colourful your plate, the more vitamins and antioxidants you get. Aim for at least 5 colours daily.</p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="tip-num">03</div>
+      <h4 data-lang="tr">Bilinçli Çiğneyin</h4>        <h4 data-lang="en">Mindful Chewing</h4>
+      <p data-lang="tr">Yavaş ve dikkatli yemek sindiriminizi iyileştirir ve tokluk sinyallerini zamanında fark etmenizi sağlar.</p>
+      <p data-lang="en">Slow, mindful eating improves digestion and helps you notice fullness signals in time.</p>
+    </div>
+    <div class="tip-card reveal">
+      <div class="tip-num">04</div>
+      <h4 data-lang="tr">Düzenli Hareket</h4>          <h4 data-lang="en">Regular Movement</h4>
+      <p data-lang="tr">Günde 30 dakika orta yoğunlukta hareket iltihabı azaltır, uykunuzu iyileştirir ve enerjinizi artırır.</p>
+      <p data-lang="en">30 minutes of moderate movement daily reduces inflammation, improves sleep and boosts energy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ CONTACT ════════════ -->
+
+<section class="section contact" id="contact">
+  <div class="reveal">
+    <h2 data-lang="tr">Birlikte yolunuzu<br>şekillendirelim</h2>
+    <h2 data-lang="en">Let's shape your<br>journey together</h2>
+    <p data-lang="tr">Yeni bir başlangıca hazır mısınız? Bana yazın — ilk görüşme ücretsiz ve bağlayıcı değildir.</p>
+    <p data-lang="en">Ready for a fresh start? Write to me — the first consultation is free and non-binding.</p>
+    <div class="social-row">
+      <a href="https://facebook.com/" target="_blank" class="soc-btn">Facebook</a>
+      <a href="https://instagram.com/" target="_blank" class="soc-btn">Instagram</a>
+      <a href="tel:+905000000000" class="soc-btn" data-lang="tr">Ara Beni</a>
+      <a href="tel:+905000000000" class="soc-btn" data-lang="en">Call Me</a>
+    </div>
+  </div>
+  <form class="c-form reveal" id="cForm" onsubmit="return false">
+    <input type="text"  required data-lang="tr" placeholder="Adınız" />
+    <input type="text"  required data-lang="en" placeholder="Your Name" />
+    <input type="email" required data-lang="tr" placeholder="E-posta adresiniz" />
+    <input type="email" required data-lang="en" placeholder="Your Email Address" />
+    <input type="text"          data-lang="tr" placeholder="Konu (ör. Beslenme danışmanlığı)" />
+    <input type="text"          data-lang="en" placeholder="Subject (e.g. Nutrition consulting)" />
+    <textarea                   data-lang="tr" placeholder="Mesajınız..."></textarea>
+    <textarea                   data-lang="en" placeholder="Your message..."></textarea>
+    <button type="button" onclick="submitForm()" data-lang="tr">Mesaj Gönder →</button>
+    <button type="button" onclick="submitForm()" data-lang="en">Send Message →</button>
+  </form>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+
+<footer>
+  <div class="footer-links">
+    <a href="#" onclick="openLegal('impressum');return false;" data-lang="tr">Impressum</a>
+    <a href="#" onclick="openLegal('impressum');return false;" data-lang="en">Impressum</a>
+    <a href="#" onclick="openLegal('privacy');return false;" data-lang="tr">Gizlilik Politikası</a>
+    <a href="#" onclick="openLegal('privacy');return false;" data-lang="en">Privacy Policy</a>
+    <a href="#" onclick="openLegal('faq');return false;" data-lang="tr">S.S.S.</a>
+    <a href="#" onclick="openLegal('faq');return false;" data-lang="en">FAQ</a>
+    <a href="#" onclick="openLegal('terms');return false;" data-lang="tr">Kullanım Şartları</a>
+    <a href="#" onclick="openLegal('terms');return false;" data-lang="en">Terms &amp; Conditions</a>
+  </div>
+  <div class="footer-bottom">
+    <span data-lang="tr">© 2025 Müberra Nutrition — Tüm hakları saklıdır</span>
+    <span data-lang="en">© 2025 Müberra Nutrition — All rights reserved</span>
+    <span data-lang="tr">💚 ile geliştirildi</span>
+    <span data-lang="en">Made with 💚</span>
+  </div>
+</footer>
+
+<!-- ════════════ LEGAL OVERLAY + PANEL ════════════ -->
+<div class="legal-overlay" id="legalOverlay" onclick="closeLegal()"></div>
+<div class="legal-panel" id="legalPanel">
+  <div class="legal-panel-handle" onclick="closeLegal()"></div>
+  <div class="legal-panel-header">
+    <div class="legal-panel-title" id="legalTitle"></div>
+    <button class="legal-panel-close" onclick="closeLegal()" aria-label="Kapat / Close">✕</button>
+  </div>
+  <div class="legal-panel-body" id="legalBody"></div>
+</div>
+
+<!-- ════════════ TOPIC MODAL ════════════ -->
+
+<div class="modal-backdrop" id="topicModal" onclick="closeModal(event)">
+  <div class="modal-box" role="dialog" aria-modal="true">
+    <button class="modal-close" onclick="closeTopic()" aria-label="Kapat">✕</button>
+    <span class="modal-icon" id="mIcon"></span>
+    <span class="modal-cat" id="mCat"></span>
+    <h2 class="modal-title" id="mTitle"></h2>
+    <div class="modal-body" id="mBody"></div>
+    <a href="#contact" class="btn-primary modal-cta" id="mCta" onclick="closeTopic()"></a>
+  </div>
+</div>
+
+<script>
+/* ─── Language ─── */
+let currentLang = 'tr';
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.getElementById('btnTR').classList.toggle('active', lang === 'tr');
+  document.getElementById('btnEN').classList.toggle('active', lang === 'en');
+  try { localStorage.setItem('mub_lang', lang); } catch(e){}
+}
+(function(){
+  try { const s = localStorage.getItem('mub_lang'); if (s && s !== 'tr') setLang(s); } catch(e){}
+})();
+
+/* ─── Nav scroll ─── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ─── Burger ─── */
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  navbar.classList.toggle('menu-open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+function closeMobile() {
+  mobileMenu.classList.remove('open');
+  burger.classList.remove('open');
+  navbar.classList.remove('menu-open');
+  document.body.style.overflow = '';
+}
+window.addEventListener('resize', () => { if (window.innerWidth > 880) closeMobile(); }, { passive: true });
+
+/* ─── Scroll reveal ─── */
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('up'), i * 65);
+      revObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+/* ─── Topic popup data ─── */
+const topics = [
+  {
+    icon: '🥗',
+    cat:  { tr: 'Temel Bilgi',     en: 'Fundamentals' },
+    title:{ tr: 'Günlük Hayatta Sağlıklı Beslenme', en: 'Healthy Eating in Everyday Life' },
+    body: {
+      tr: `<p>Sağlıklı beslenme karmaşık olmak zorunda değildir. Doğru besinleri doğru miktarlarda tüketmek, enerjinizi ve sağlığınızı doğrudan etkiler.</p>
+           <p><strong>Temel ilkeler:</strong></p>
+           <ul>
+             <li>Tabağınızın yarısını sebze ve meyve ile doldurun</li>
+             <li>Tam tahıllı ürünleri tercih edin</li>
+             <li>İşlenmiş gıdaları ve şekeri azaltın</li>
+             <li>Yeterli protein alın: baklagiller, yumurta, balık</li>
+             <li>Düzenli öğün saatleri belirleyin</li>
+           </ul>
+           <p>Küçük ama sürdürülebilir değişiklikler, uzun vadede büyük farklar yaratır.</p>`,
+      en: `<p>Healthy eating doesn't have to be complicated. Consuming the right foods in the right amounts directly affects your energy and health.</p>
+           <p><strong>Key principles:</strong></p>
+           <ul>
+             <li>Fill half your plate with vegetables and fruit</li>
+             <li>Choose whole grain products</li>
+             <li>Reduce processed foods and sugar</li>
+             <li>Get enough protein: legumes, eggs, fish</li>
+             <li>Set regular meal times</li>
+           </ul>
+           <p>Small but sustainable changes create big differences over time.</p>`
+    },
+    cta: { tr: 'Beslenme Danışmanlığı Al →', en: 'Get Nutrition Advice →' }
+  },
+  {
+    icon: '🧘',
+    cat:  { tr: 'Hareket',   en: 'Movement' },
+    title:{ tr: 'Yoga',      en: 'Yoga' },
+    body: {
+      tr: `<p>Yoga, beden ve zihin arasındaki bağı güçlendiren binlerce yıllık bir uygulamadır. Esneklik, denge ve iç huzur için idealdir.</p>
+           <p><strong>Yararları:</strong></p>
+           <ul>
+             <li>Esnekliği ve duruşu geliştirir</li>
+             <li>Stresi ve kaygıyı azaltır</li>
+             <li>Uyku kalitesini artırır</li>
+             <li>Farkındalık ve konsantrasyonu güçlendirir</li>
+             <li>Her yaş ve seviye için uygundur</li>
+           </ul>
+           <p>Haftada yalnızca 2–3 seans bile hayatınızda gözle görülür bir değişim yaratır.</p>`,
+      en: `<p>Yoga is a thousands-year-old practice that strengthens the connection between body and mind. Ideal for flexibility, balance and inner peace.</p>
+           <p><strong>Benefits:</strong></p>
+           <ul>
+             <li>Improves flexibility and posture</li>
+             <li>Reduces stress and anxiety</li>
+             <li>Improves sleep quality</li>
+             <li>Strengthens mindfulness and concentration</li>
+             <li>Suitable for all ages and levels</li>
+           </ul>
+           <p>Even just 2–3 sessions per week creates a visible change in your life.</p>`
+    },
+    cta: { tr: 'Yoga Seansı Rezerve Et →', en: 'Book a Yoga Session →' }
+  },
+  {
+    icon: '🍎',
+    cat:  { tr: 'Besin Değerleri',  en: 'Nutrients' },
+    title:{ tr: 'Süper Gıdalar & Vitaminler', en: 'Superfoods & Vitamins' },
+    body: {
+      tr: `<p>Süper gıdalar, olağandışı yüksek besin değerleriyle vücudu destekleyen doğal besinlerdir.</p>
+           <p><strong>Öne çıkan süper gıdalar:</strong></p>
+           <ul>
+             <li>🫐 <strong>Yaban mersini</strong> – antioksidan deposu</li>
+             <li>🥬 <strong>Ispanak</strong> – demir ve folik asit kaynağı</li>
+             <li>🐟 <strong>Somon</strong> – omega-3 yağ asitleri</li>
+             <li>🥑 <strong>Avokado</strong> – sağlıklı yağlar ve E vitamini</li>
+             <li>🌰 <strong>Ceviz</strong> – beyin sağlığı için</li>
+           </ul>
+           <p>Bu gıdaları günlük beslenmenize eklemek için kişisel öneriler almak ister misiniz?</p>`,
+      en: `<p>Superfoods are natural foods that support the body with extraordinarily high nutritional values.</p>
+           <p><strong>Top superfoods:</strong></p>
+           <ul>
+             <li>🫐 <strong>Blueberries</strong> – antioxidant powerhouse</li>
+             <li>🥬 <strong>Spinach</strong> – iron and folic acid source</li>
+             <li>🐟 <strong>Salmon</strong> – omega-3 fatty acids</li>
+             <li>🥑 <strong>Avocado</strong> – healthy fats and vitamin E</li>
+             <li>🌰 <strong>Walnuts</strong> – great for brain health</li>
+           </ul>
+           <p>Would you like personalised advice on adding these foods to your daily diet?</p>`
+    },
+    cta: { tr: 'Kişisel Plan Al →', en: 'Get a Personal Plan →' }
+  },
+  {
+    icon: '🏋️',
+    cat:  { tr: 'Hareket',   en: 'Movement' },
+    title:{ tr: 'Pilates',   en: 'Pilates' },
+    body: {
+      tr: `<p>Pilates, derin kas gruplarını aktive ederek güç, denge ve duruş düzeltme konusunda son derece etkili bir egzersiz yöntemidir.</p>
+           <p><strong>Pilates ile neler kazanırsınız:</strong></p>
+           <ul>
+             <li>Güçlü bir merkez (core) kası</li>
+             <li>Daha iyi duruş ve denge</li>
+             <li>Bel ve sırt ağrılarının azalması</li>
+             <li>Artan vücut farkındalığı</li>
+             <li>Esnek ve uzun kaslar</li>
+           </ul>
+           <p>Başlangıç seviyesinden ileri seviyeye tüm programlar mevcuttur. Sizin için en uygun programı birlikte belirleyelim.</p>`,
+      en: `<p>Pilates activates deep muscle groups and is highly effective for strength, balance and posture correction.</p>
+           <p><strong>What you gain with Pilates:</strong></p>
+           <ul>
+             <li>A strong core</li>
+             <li>Better posture and balance</li>
+             <li>Reduction in back and lower back pain</li>
+             <li>Increased body awareness</li>
+             <li>Flexible and elongated muscles</li>
+           </ul>
+           <p>All programmes from beginner to advanced are available. Let's find the best one for you together.</p>`
+    },
+    cta: { tr: 'Pilates Programı Başlat →', en: 'Start a Pilates Programme →' }
+  },
+  {
+    icon: '💡',
+    cat:  { tr: 'Bilgilendirme', en: 'Education' },
+    title:{ tr: 'Beslenme Yanlışları & Mitler', en: 'Nutrition Myths & Misconceptions' },
+    body: {
+      tr: `<p>Yanlış beslenme bilgileri, sağlıklı yaşam yolculuğunuzu sekteye uğratabilir. İşte en yaygın mitler:</p>
+           <ul>
+             <li>❌ <strong>"Karbonhidratlar kilo aldırır"</strong> – Doğru kaynaktan alınan karbonhidrat enerji verir.</li>
+             <li>❌ <strong>"Yağsız yemek daha sağlıklı"</strong> – Sağlıklı yağlar vücut için şarttır.</li>
+             <li>❌ <strong>"Detoks diyetleri vücudu temizler"</strong> – Karaciğer ve böbrekler bunu zaten yapıyor.</li>
+             <li>❌ <strong>"Kahvaltıyı atlamak zayıflatır"</strong> – Aksine metabolizmayı yavaşlatabilir.</li>
+             <li>❌ <strong>"Organik = kalorisiz"</strong> – Organik ürünler de kalori içerir.</li>
+           </ul>
+           <p>Doğru bilgiyle beslenme kararlarınızı daha sağlıklı verin. Kişisel danışmanlık için bana ulaşın.</p>`,
+      en: `<p>Wrong nutrition information can derail your healthy living journey. Here are the most common myths:</p>
+           <ul>
+             <li>❌ <strong>"Carbs make you gain weight"</strong> – Carbs from the right sources provide energy.</li>
+             <li>❌ <strong>"Fat-free food is healthier"</strong> – Healthy fats are essential for the body.</li>
+             <li>❌ <strong>"Detox diets cleanse the body"</strong> – Your liver and kidneys already do that.</li>
+             <li>❌ <strong>"Skipping breakfast helps you lose weight"</strong> – It can actually slow your metabolism.</li>
+             <li>❌ <strong>"Organic = calorie-free"</strong> – Organic products still contain calories.</li>
+           </ul>
+           <p>Make better nutrition decisions with the right information. Contact me for personal consulting.</p>`
+    },
+    cta: { tr: 'Danışmanlık Al →', en: 'Get Consulting →' }
+  }
+];
+
+function openTopic(idx) {
+  const t = topics[idx];
+  const l = currentLang;
+  document.getElementById('mIcon').textContent  = t.icon;
+  document.getElementById('mCat').textContent   = t.cat[l];
+  document.getElementById('mTitle').textContent = t.title[l];
+  document.getElementById('mBody').innerHTML    = t.body[l];
+  document.getElementById('mCta').textContent   = t.cta[l];
+  document.getElementById('topicModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeTopic() {
+  document.getElementById('topicModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('topicModal')) closeTopic();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTopic(); });
+
+/* ─── Form ─── */
+function submitForm() {
+  const btns = document.querySelectorAll('#cForm button');
+  btns.forEach(btn => {
+    btn.textContent = currentLang === 'tr' ? '✓ Gönderildi!' : '✓ Sent!';
+    btn.style.background = 'var(--sage-dk)';
+  });
+  setTimeout(() => {
+    document.getElementById('cForm').reset();
+    btns.forEach((b,i) => {
+      b.style.background = '';
+      b.textContent = i === 0 ? 'Mesaj Gönder →' : 'Send Message →';
+    });
+  }, 3000);
+}
+
+/* ─── Legal Panel ─── */
+const legalContent = {
+  impressum: {
+    title: { tr: 'Impressum', en: 'Impressum' },
+    body: {
+      tr: `<h3>Hizmet Sağlayıcı</h3>
+<p><strong>Müberra Nutrition</strong><br>
+Beslenme Danışmanlığı, Yoga & Pilates<br>
+[Adres Satırı 1]<br>
+[Adres Satırı 2]<br>
+Almanya</p>
+<h3>İletişim</h3>
+<p>Telefon: <a href="tel:+49000000000">+49 (0) 000 000 0000</a><br>
+E-posta: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
+<h3>Sorumlu Kişi</h3>
+<p><strong>Müberra [Soyadı]</strong><br>
+Beslenme Danışmanı, Yoga & Pilates Eğitmeni</p>
+<h3>Mesleki Bilgiler</h3>
+<p>Mesleki unvan, ilgili meslek örgütünden alınmıştır. Almanya'da yetkilendirilmiştir.</p>
+<h3>Sorumluluk Reddi</h3>
+<p>Bu web sitesindeki içerikler genel bilgilendirme amaçlıdır ve tıbbi tavsiye yerine geçmez. Herhangi bir sağlık kararı vermeden önce doktorunuza danışınız.</p>
+<h3>Telif Hakkı</h3>
+<p>© 2025 Müberra Nutrition. Bu web sitesindeki tüm içerik, görsel ve metinler telif hakkıyla korunmaktadır. İzinsiz kopyalanamaz veya dağıtılamaz.</p>`,
+      en: `<h3>Service Provider</h3>
+<p><strong>Müberra Nutrition</strong><br>
+Nutrition Consulting, Yoga & Pilates<br>
+[Address Line 1]<br>
+[Address Line 2]<br>
+Germany</p>
+<h3>Contact</h3>
+<p>Phone: <a href="tel:+49000000000">+49 (0) 000 000 0000</a><br>
+E-mail: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
+<h3>Person Responsible</h3>
+<p><strong>Müberra [Surname]</strong><br>
+Nutrition Consultant, Yoga & Pilates Instructor</p>
+<h3>Professional Information</h3>
+<p>Professional title granted by the relevant professional body. Authorised in Germany.</p>
+<h3>Disclaimer</h3>
+<p>The content on this website is for general information purposes only and does not constitute medical advice. Please consult your doctor before making any health-related decisions.</p>
+<h3>Copyright</h3>
+<p>© 2025 Müberra Nutrition. All content, images and text on this website are protected by copyright. Unauthorised copying or distribution is prohibited.</p>`
+    }
+  },
+  privacy: {
+    title: { tr: 'Gizlilik Politikası', en: 'Privacy Policy' },
+    body: {
+      tr: `<h3>1. Genel Bakış</h3>
+<p>Bu gizlilik politikası, Müberra Nutrition web sitesini ziyaret ettiğinizde kişisel verilerinizin nasıl toplandığını, kullanıldığını ve korunduğunu açıklamaktadır. Verilerinizi ciddiye alıyoruz ve Genel Veri Koruma Yönetmeliği (GDPR) kapsamındaki haklarınıza saygı gösteriyoruz.</p>
+<h3>2. Toplanan Veriler</h3>
+<p><strong>İletişim formu aracılığıyla:</strong> Adınız, e-posta adresiniz ve mesajınız. Bu bilgiler yalnızca size yanıt vermek için kullanılır ve üçüncü taraflarla paylaşılmaz.</p>
+<p><strong>Teknik veriler:</strong> IP adresi, tarayıcı türü ve ziyaret tarihi gibi teknik bilgiler sunucu günlüklerinde otomatik olarak saklanabilir. Bu veriler istatistiksel amaçlarla kullanılır.</p>
+<h3>3. Verilerin Kullanımı</h3>
+<ul>
+<li>Sorularınıza ve taleplerinize yanıt vermek</li>
+<li>Randevu ve danışma hizmetleri sunmak</li>
+<li>Yasal yükümlülüklerimizi yerine getirmek</li>
+</ul>
+<h3>4. Veri Paylaşımı</h3>
+<p>Kişisel verileriniz hiçbir koşulda üçüncü şahıslara satılmaz, kiralanmaz veya pazarlama amacıyla kullanılmaz.</p>
+<h3>5. Çerezler</h3>
+<p>Bu web sitesi, dil tercihlerinizi hatırlamak için yalnızca <strong>işlevsel çerezler</strong> kullanır. Reklam veya izleme amacıyla çerez kullanılmamaktadır.</p>
+<h3>6. Haklarınız</h3>
+<p>GDPR kapsamında şu haklara sahipsiniz: verilerinize erişim, düzeltme, silme, işlemenin kısıtlanması ve itiraz etme. Talepleriniz için: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
+<h3>7. İletişim</h3>
+<p>Gizlilik politikamıza ilişkin sorularınız için bizimle iletişime geçebilirsiniz.</p>`,
+      en: `<h3>1. Overview</h3>
+<p>This privacy policy explains how your personal data is collected, used and protected when you visit the Müberra Nutrition website. We take your data seriously and respect your rights under the General Data Protection Regulation (GDPR).</p>
+<h3>2. Data Collected</h3>
+<p><strong>Via the contact form:</strong> Your name, email address and message. This information is used solely to respond to you and is not shared with third parties.</p>
+<p><strong>Technical data:</strong> Technical information such as IP address, browser type and visit date may be stored automatically in server logs for statistical purposes.</p>
+<h3>3. Use of Data</h3>
+<ul>
+<li>To respond to your enquiries and requests</li>
+<li>To provide appointment and consulting services</li>
+<li>To fulfil our legal obligations</li>
+</ul>
+<h3>4. Data Sharing</h3>
+<p>Your personal data will never be sold, rented or used for marketing purposes by third parties under any circumstances.</p>
+<h3>5. Cookies</h3>
+<p>This website uses only <strong>functional cookies</strong> to remember your language preference. No advertising or tracking cookies are used.</p>
+<h3>6. Your Rights</h3>
+<p>Under GDPR, you have the right to: access, rectification, erasure, restriction of processing and objection. For requests: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
+<h3>7. Contact</h3>
+<p>If you have questions about our privacy policy, please do not hesitate to contact us.</p>`
+    }
+  },
+  faq: {
+    title: { tr: 'Sıkça Sorulan Sorular', en: 'Frequently Asked Questions' },
+    body: {
+      tr: `<div class="faq-list">
+  ${[
+    ['İlk danışma ücretsiz mi?', 'Evet! İlk 30 dakikalık tanışma görüşmesi tamamen ücretsiz ve bağlayıcı değildir. Bu görüşmede hedeflerinizi, yaşam tarzınızı ve beklentilerinizi konuşur, size en uygun programı birlikte belirlemeye çalışırız.'],
+    ['Online danışmanlık mevcut mu?', 'Evet, video görüşme yoluyla online danışmanlık hizmeti sunmaktayız. Böylece bulunduğunuz yerden fark etmeksizin profesyonel destek alabilirsiniz.'],
+    ['Beslenme programı kişiye özel mi hazırlanıyor?', 'Kesinlikle. Her danışan için yaşı, sağlık durumu, aktivite seviyesi, besin tercihleri ve hedefleri göz önüne alınarak tamamen kişiselleştirilmiş bir beslenme planı hazırlanmaktadır.'],
+    ['Yoga ve pilates için hangi seviyede katılabilirim?', 'Başlangıç seviyesinden ileri seviyeye kadar her seviyeye uygun programlarımız bulunmaktadır. Deneyiminiz olmasa da endişelenmeyin — sizin için doğru tempodan başlarız.'],
+    ['Sonuçları ne zaman görmeye başlarım?', 'Çoğu danışanımız ilk 2–4 hafta içinde enerji artışı ve genel iyilik halinde belirgin değişiklikler fark etmektedir. Kalıcı fiziksel sonuçlar genellikle 6–8 hafta içinde görülür; ancak bu süre kişiden kişiye değişir.'],
+    ['Seansı nasıl iptal veya erteleyebilirim?', 'Seans tarihinden en az 24 saat önce bize bildirmeniz yeterlidir. 24 saatten kısa süre kalan iptaller için seans ücreti tahsil edilebilir.'],
+    ['Hangi ödeme yöntemlerini kabul ediyorsunuz?', 'Banka transferi, kredi kartı ve PayPal ile ödeme kabul etmekteyiz. Birden fazla seans için paket fiyat seçenekleri de mevcuttur.'],
+    ['Beslenme programı diyet mi yoksa yaşam tarzı değişikliği mi?', 'Kısa vadeli diyetler yerine, uzun vadeli ve sürdürülebilir bir yaşam tarzı değişikliği hedeflenmektedir. Amacımız sizi bir diyet döngüsünden kurtararak gerçek ve kalıcı sağlık kazanımları elde etmenizi sağlamaktır.'],
+  ].map(([q,a], i) => `<div class="faq-item" id="faq-tr-${i}">
+    <button class="faq-q" onclick="toggleFaq('faq-tr-${i}')">
+      <span>${q}</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">${a}</div>
+  </div>`).join('')}
+</div>`,
+      en: `<div class="faq-list">
+  ${[
+    ['Is the first consultation free?', 'Yes! The first 30-minute introductory session is completely free and non-binding. During this session we discuss your goals, lifestyle and expectations, and work together to determine the best programme for you.'],
+    ['Is online consulting available?', 'Yes, we offer online consulting via video call. This means you can receive professional support regardless of where you are located.'],
+    ['Is the nutrition plan personalised?', 'Absolutely. A fully personalised nutrition plan is prepared for each client, taking into account their age, health status, activity level, food preferences and goals.'],
+    ['What level can I join yoga and pilates at?', 'We have programmes suitable for every level from beginner to advanced. Even if you have no experience, don't worry — we start at the right pace for you.'],
+    ['When will I start seeing results?', 'Most of our clients notice a significant improvement in energy levels and overall well-being within the first 2–4 weeks. Lasting physical results typically appear within 6–8 weeks, though this varies from person to person.'],
+    ['How can I cancel or reschedule a session?', 'Simply let us know at least 24 hours before your session date. A session fee may be charged for cancellations made less than 24 hours in advance.'],
+    ['What payment methods do you accept?', 'We accept payment by bank transfer, credit card and PayPal. Package pricing options are also available for multiple sessions.'],
+    ['Is the nutrition programme a diet or a lifestyle change?', 'Rather than short-term diets, the goal is a long-term, sustainable lifestyle change. Our aim is to free you from a cycle of dieting and help you achieve real, lasting health gains.'],
+  ].map(([q,a], i) => `<div class="faq-item" id="faq-en-${i}">
+    <button class="faq-q" onclick="toggleFaq('faq-en-${i}')">
+      <span>${q}</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">${a}</div>
+  </div>`).join('')}
+</div>`
+    }
+  },
+  terms: {
+    title: { tr: 'Kullanım Şartları', en: 'Terms & Conditions' },
+    body: {
+      tr: `<h3>1. Genel Hükümler</h3>
+<p>Bu web sitesini kullanarak aşağıdaki kullanım şartlarını kabul etmiş sayılırsınız. Müberra Nutrition, bu şartları önceden haber vermeksizin değiştirme hakkını saklı tutar.</p>
+<h3>2. Hizmetlerin Kapsamı</h3>
+<p>Müberra Nutrition; bireysel beslenme danışmanlığı, online danışmanlık, yoga ve pilates seansları ile genel sağlıklı yaşam rehberliği sunmaktadır. Sunulan hizmetler <strong>tıbbi tedavinin yerini tutmaz</strong>.</p>
+<h3>3. Randevu ve İptal Politikası</h3>
+<ul>
+<li>Seanslar, mutabık kalınan tarih ve saatte gerçekleştirilir.</li>
+<li>İptaller en az <strong>24 saat önceden</strong> bildirilmelidir.</li>
+<li>Geç bildirilen iptaller veya gelmemeler için seans ücreti talep edilebilir.</li>
+<li>Danışman, katılımcıya ilişkin güvenlik veya sağlık endişesi duyduğunda seansı erteleme hakkını saklı tutar.</li>
+</ul>
+<h3>4. Ödeme Koşulları</h3>
+<p>Seanslar için ödeme, seans öncesinde veya mutabık kalınan ödeme planına göre yapılır. Ödemeler banka transferi, kredi kartı veya PayPal ile gerçekleştirilebilir.</p>
+<h3>5. Sorumluluk Sınırı</h3>
+<p>Müberra Nutrition, verilen beslenme ve yaşam tarzı tavsiyeleri sonucunda ortaya çıkabilecek kişisel sağlık sonuçlarından yasal olarak sorumlu tutulamaz. Tüm bireysel sağlık kararları danışanın kendi sorumluluğundadır.</p>
+<h3>6. Fikri Mülkiyet</h3>
+<p>Bu web sitesindeki tüm içerikler (metin, görsel, logo vb.) Müberra Nutrition'a aittir ve izinsiz kullanılamaz.</p>
+<h3>7. Uygulanacak Hukuk</h3>
+<p>Bu şartlar Alman hukukuna tabidir. Uyuşmazlıklarda yetkili mahkemeler hizmet sağlayıcının bulunduğu yerdeki mahkemelerdir.</p>`,
+      en: `<h3>1. General Provisions</h3>
+<p>By using this website, you are deemed to have accepted the following terms of use. Müberra Nutrition reserves the right to amend these terms without prior notice.</p>
+<h3>2. Scope of Services</h3>
+<p>Müberra Nutrition provides individual nutrition consulting, online consulting, yoga and pilates sessions and general healthy lifestyle guidance. The services provided <strong>do not replace medical treatment</strong>.</p>
+<h3>3. Appointment and Cancellation Policy</h3>
+<ul>
+<li>Sessions take place at the agreed date and time.</li>
+<li>Cancellations must be notified at least <strong>24 hours in advance</strong>.</li>
+<li>A session fee may be charged for late cancellations or no-shows.</li>
+<li>The consultant reserves the right to postpone a session if safety or health concerns arise regarding the participant.</li>
+</ul>
+<h3>4. Payment Terms</h3>
+<p>Payment for sessions is made prior to the session or in accordance with the agreed payment plan. Payments can be made by bank transfer, credit card or PayPal.</p>
+<h3>5. Limitation of Liability</h3>
+<p>Müberra Nutrition cannot be held legally responsible for personal health outcomes arising from nutrition and lifestyle advice provided. All individual health decisions are the sole responsibility of the client.</p>
+<h3>6. Intellectual Property</h3>
+<p>All content on this website (text, images, logos etc.) belongs to Müberra Nutrition and may not be used without permission.</p>
+<h3>7. Governing Law</h3>
+<p>These terms are governed by German law. The courts at the location of the service provider shall have jurisdiction over any disputes.</p>`
+    }
+  }
+};
+
+function openLegal(key) {
+  const content = legalContent[key];
+  if (!content) return;
+  const lang = currentLang;
+  document.getElementById('legalTitle').textContent = content.title[lang];
+  document.getElementById('legalBody').innerHTML = content.body[lang];
+  document.getElementById('legalOverlay').classList.add('open');
+  document.getElementById('legalPanel').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLegal() {
+  document.getElementById('legalOverlay').classList.remove('open');
+  document.getElementById('legalPanel').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function toggleFaq(id) {
+  const item = document.getElementById(id);
+  if (!item) return;
+  const wasOpen = item.classList.contains('open');
+  // Close all in same panel
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLegal();
+});
+
+</script>
+
+</body>
+</html>
