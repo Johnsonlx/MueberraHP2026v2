@@ -63,31 +63,17 @@ box-shadow: 0 1px 0 var(–bone);
 .burger.open span:nth-child(2) { opacity: 0; }
 .burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
 
-/* Mobile drawer — solid dark, full screen, always readable */
+/* Mobile drawer — dark background so text is always readable */
 .mobile-menu {
-position: fixed; top: var(–nav-h); right: 0; bottom: 0; left: 0;
-background: #1a1a1a;
+display: flex; position: fixed; top: var(–nav-h); right: 0; bottom: 0; left: 0;
+background: var(–dark);
 flex-direction: column; align-items: center; justify-content: center;
 gap: 1.6rem; z-index: 99;
-/* Use visibility+opacity instead of display toggle so background fills fully */
-display: flex;
-visibility: hidden;
-opacity: 0;
-pointer-events: none;
+visibility: hidden; opacity: 0; pointer-events: none;
 transition: opacity .3s, visibility .3s;
 }
-.mobile-menu.open {
-visibility: visible;
-opacity: 1;
-pointer-events: auto;
-}
-.mobile-menu a {
-font-size: 1.5rem; font-family: ‘Cormorant Garamond’, serif;
-color: #f0ebe3; font-weight: 400; letter-spacing: .04em;
-border-bottom: 1px solid rgba(255,255,255,.1);
-width: 70%; text-align: center; padding-bottom: .65rem;
-}
-.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu.open { visibility: visible; opacity: 1; pointer-events: auto; }
+.mobile-menu a { font-size: 1.5rem; font-family: ‘Cormorant Garamond’, serif; color: var(–cream); font-weight: 400; letter-spacing: .04em; }
 .mobile-menu a:hover, .mobile-menu a:active { color: var(–sage); }
 
 /* HERO */
@@ -275,13 +261,16 @@ body nav .nav-cta[data-lang=“tr”]         { display: none !important; }
 nav.menu-open { background: #1c1c1c !important; box-shadow: none; }
 nav.menu-open .lang-bar { pointer-events: none; opacity: .3; }
 
-/* Mobile drawer — responsive tweaks only, base styles in global CSS */
-.mobile-menu { top: var(–nav-h); }
+/* Mobile drawer */
+.mobile-menu {
+top: var(–nav-h);
+background: #1c1c1c;
+}
 .mobile-menu a {
 font-size: 1.4rem;
 color: #f0ebe3;
-border-bottom: 1px solid rgba(255,255,255,.1);
-width: 75%; text-align: center; padding-bottom: .65rem;
+border-bottom: 1px solid rgba(255,255,255,.07);
+width: 80%; text-align: center; padding-bottom: .6rem;
 }
 .mobile-menu a:last-child { border-bottom: none; }
 .mobile-menu a:hover, .mobile-menu a:active { color: var(–sage); }
