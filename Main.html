@@ -245,6 +245,9 @@ footer {
   }
   nav .nav-links  { display: none; }
   nav .nav-cta    { display: none !important; }
+  /* Override lang-system revert for CTA on mobile */
+  body.lang-en nav .nav-cta[data-lang="en"] { display: none !important; }
+  body nav .nav-cta[data-lang="tr"]         { display: none !important; }
 
   .lang-bar { gap: .15rem; order: 2; margin-left: auto; }
   .lang-btn  { padding: .2rem .45rem; font-size: .65rem; }
@@ -255,6 +258,7 @@ footer {
   .burger.open span { background: var(--white); }
   /* Nav gets dark bg while menu is open so burger X is visible */
   nav.menu-open { background: #1c1c1c !important; box-shadow: none; }
+  nav.menu-open .lang-bar { pointer-events: none; opacity: .3; }
 
   /* Mobile drawer */
   .mobile-menu {
@@ -282,6 +286,8 @@ footer {
   .hero-btns { justify-content: center; flex-wrap: wrap; }
   .hero-desc { margin-inline: auto; max-width: 100%; }
   .hero-visual, .scroll-hint, .hero-dots, .hero-blob { display: none; }
+  /* Keep scroll-hint hidden on mobile regardless of language */
+  body.lang-en .scroll-hint[data-lang="en"] { display: none !important; }
 
   /* STATS */
   .stats { grid-template-columns: repeat(2,1fr); padding: 1.5rem 1.25rem; }
