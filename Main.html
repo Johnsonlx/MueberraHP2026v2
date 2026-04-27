@@ -251,16 +251,10 @@ footer {
   .lang-sep  { font-size: .55rem; }
 
   .burger { display: flex; order: 3; margin-left: .5rem; }
-  /* When menu is open: nav gets dark bg so burger (X) is always visible */
-  nav.menu-open {
-    background: #1c1c1c !important;
-    box-shadow: none;
-  }
-  .burger span { background: var(--charcoal); transition: background .2s; }
+  /* White lines when dark drawer is open */
   .burger.open span { background: var(--white); }
-  /* Make burger larger on mobile for easier tap */
-  .burger { padding: 6px; }
-  .burger span { width: 26px; height: 2.5px; }
+  /* Nav gets dark bg while menu is open so burger X is visible */
+  nav.menu-open { background: #1c1c1c !important; box-shadow: none; }
 
   /* Mobile drawer */
   .mobile-menu {
@@ -337,92 +331,53 @@ footer {
 
 
 
-/* ═══ LEGAL PANEL (slide-up sheet) ═══════════════════════════════ */
-.legal-overlay {
-  position: fixed; inset: 0; z-index: 600;
-  background: rgba(15,20,15,.55);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  opacity: 0; pointer-events: none;
-  transition: opacity .35s ease;
-}
-.legal-overlay.open { opacity: 1; pointer-events: all; }
-
-.legal-panel {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 601;
-  background: var(--cream);
-  max-height: 88vh;
-  border-radius: 20px 20px 0 0;
-  box-shadow: 0 -8px 60px rgba(0,0,0,.22);
-  display: flex; flex-direction: column;
-  transform: translateY(100%);
-  transition: transform .42s cubic-bezier(.4,0,.2,1);
-}
-.legal-panel.open { transform: translateY(0); }
-
-.legal-panel-handle {
-  width: 40px; height: 4px; border-radius: 2px;
-  background: var(--bone); margin: 14px auto 0; flex-shrink: 0; cursor: pointer;
-}
-.legal-panel-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1.2rem 2rem 1rem; border-bottom: 1px solid var(--bone); flex-shrink: 0;
-}
-.legal-panel-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.4rem,3vw,1.9rem); font-weight: 300; color: var(--charcoal);
-}
-.legal-panel-close {
-  background: none; border: none; cursor: pointer;
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; color: var(--text-sub);
-  transition: background .2s, color .2s;
-}
-.legal-panel-close:hover { background: var(--bone); color: var(--charcoal); }
-
-.legal-panel-body {
-  overflow-y: auto; padding: 1.8rem 2rem 3rem;
-  font-size: .86rem; line-height: 1.88; color: var(--text-sub);
-  flex: 1;
-  -webkit-overflow-scrolling: touch;
-}
-.legal-panel-body h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem; font-weight: 400; color: var(--charcoal);
-  margin: 1.4rem 0 .5rem;
-}
-.legal-panel-body h3:first-child { margin-top: 0; }
-.legal-panel-body p { margin-bottom: .7rem; }
-.legal-panel-body ul { padding-left: 1.3rem; margin-bottom: .8rem; }
-.legal-panel-body li { margin-bottom: .35rem; }
-.legal-panel-body strong { color: var(--charcoal); font-weight: 600; }
-.legal-panel-body a { color: var(--sage-dk); text-decoration: underline; }
-
+/* ── LEGAL SLIDE-UP PANEL ───────────────────────────────────────── */
+.lpanel-bg{position:fixed;inset:0;z-index:600;background:rgba(20,30,20,.5);
+  backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity .3s}
+.lpanel-bg.open{opacity:1;pointer-events:all}
+.lpanel{position:fixed;bottom:0;left:0;right:0;z-index:601;
+  background:var(--cream);border-radius:18px 18px 0 0;
+  max-height:85vh;display:flex;flex-direction:column;
+  box-shadow:0 -6px 50px rgba(0,0,0,.18);
+  transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.lpanel.open{transform:translateY(0)}
+.lpanel-grip{width:36px;height:4px;border-radius:2px;background:var(--bone);
+  margin:12px auto 0;cursor:pointer;flex-shrink:0}
+.lpanel-hd{display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 1.8rem .9rem;border-bottom:1px solid var(--bone);flex-shrink:0}
+.lpanel-hd h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,3vw,1.75rem);
+  font-weight:300;color:var(--charcoal)}
+.lpanel-x{background:none;border:none;cursor:pointer;font-size:1.25rem;
+  color:var(--text-sub);padding:.3rem;line-height:1;transition:color .2s}
+.lpanel-x:hover{color:var(--charcoal)}
+.lpanel-body{overflow-y:auto;padding:1.6rem 1.8rem 3rem;
+  font-size:.85rem;line-height:1.88;color:var(--text-sub);flex:1;
+  -webkit-overflow-scrolling:touch}
+.lpanel-body h3{font-family:'Cormorant Garamond',serif;font-size:1.15rem;
+  font-weight:400;color:var(--charcoal);margin:1.3rem 0 .45rem}
+.lpanel-body h3:first-child{margin-top:0}
+.lpanel-body p{margin-bottom:.65rem}
+.lpanel-body ul{padding-left:1.2rem;margin-bottom:.75rem}
+.lpanel-body li{margin-bottom:.3rem}
+.lpanel-body strong{color:var(--charcoal);font-weight:600}
+.lpanel-body a{color:var(--sage-dk);text-decoration:underline}
 /* FAQ accordion */
-.faq-item { border-bottom: 1px solid var(--bone); }
-.faq-q {
-  width: 100%; background: none; border: none; text-align: left;
-  padding: 1rem 0; cursor: pointer;
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  font-family: 'Nunito', sans-serif; font-size: .87rem; font-weight: 600;
-  color: var(--charcoal); transition: color .2s;
-}
-.faq-q:hover { color: var(--sage-dk); }
-.faq-q .faq-icon {
-  font-size: 1.1rem; line-height: 1; flex-shrink: 0;
-  color: var(--sage); transition: transform .28s;
-}
-.faq-item.open .faq-icon { transform: rotate(45deg); }
-.faq-a {
-  max-height: 0; overflow: hidden;
-  transition: max-height .35s cubic-bezier(.4,0,.2,1), padding .3s;
-  font-size: .83rem; color: var(--text-sub); line-height: 1.82;
-}
-.faq-item.open .faq-a { max-height: 400px; padding-bottom: 1rem; }
-
-@media (max-width: 600px) {
-  .legal-panel-body { padding: 1.4rem 1.2rem 3rem; }
-  .legal-panel-header { padding: 1rem 1.2rem .8rem; }
+.faq-row{border-bottom:1px solid var(--bone)}
+.faq-btn{width:100%;background:none;border:none;text-align:left;
+  padding:.9rem 0;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:600;
+  color:var(--charcoal);transition:color .2s}
+.faq-btn:hover{color:var(--sage-dk)}
+.faq-plus{font-size:1.05rem;color:var(--sage);transition:transform .25s;flex-shrink:0}
+.faq-row.is-open .faq-plus{transform:rotate(45deg)}
+.faq-ans{max-height:0;overflow:hidden;
+  transition:max-height .32s cubic-bezier(.4,0,.2,1),padding .28s;
+  font-size:.82rem;color:var(--text-sub);line-height:1.8}
+.faq-row.is-open .faq-ans{max-height:300px;padding-bottom:.9rem}
+@media(max-width:600px){
+  .lpanel-body{padding:1.2rem 1.1rem 3rem}
+  .lpanel-hd{padding:.9rem 1.1rem .8rem}
 }
   </style>
 </head>
@@ -755,17 +710,6 @@ footer {
   </div>
 </footer>
 
-<!-- ════════════ LEGAL OVERLAY + PANEL ════════════ -->
-<div class="legal-overlay" id="legalOverlay" onclick="closeLegal()"></div>
-<div class="legal-panel" id="legalPanel">
-  <div class="legal-panel-handle" onclick="closeLegal()"></div>
-  <div class="legal-panel-header">
-    <div class="legal-panel-title" id="legalTitle"></div>
-    <button class="legal-panel-close" onclick="closeLegal()" aria-label="Kapat / Close">✕</button>
-  </div>
-  <div class="legal-panel-body" id="legalBody"></div>
-</div>
-
 <!-- ════════════ TOPIC MODAL ════════════ -->
 
 <div class="modal-backdrop" id="topicModal" onclick="closeModal(event)">
@@ -1006,206 +950,159 @@ function submitForm() {
   }, 3000);
 }
 
-/* ─── Legal Panel ─── */
-const legalContent = {
-  impressum: {
-    title: { tr: 'Impressum', en: 'Impressum' },
-    body: {
-      tr: `<h3>Hizmet Sağlayıcı</h3>
-<p><strong>Müberra Nutrition</strong><br>
-Beslenme Danışmanlığı, Yoga & Pilates<br>
-[Adres Satırı 1]<br>
-[Adres Satırı 2]<br>
-Almanya</p>
+/* ── Legal panel ── */
+const _legalData = {
+  impressum:{
+    tr:'Impressum', en:'Impressum',
+    ctr:`<h3>Hizmet Sağlayıcı</h3>
+<p><strong>Müberra Nutrition</strong><br>Beslenme Danışmanlığı, Yoga &amp; Pilates<br>[Adres Satırı 1], [Şehir], Almanya</p>
 <h3>İletişim</h3>
-<p>Telefon: <a href="tel:+49000000000">+49 (0) 000 000 0000</a><br>
-E-posta: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
+<p>Tel: <a href="tel:+49000000000">+49 (0) 000 000 0000</a><br>E-posta: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
 <h3>Sorumlu Kişi</h3>
-<p><strong>Müberra [Soyadı]</strong><br>
-Beslenme Danışmanı, Yoga & Pilates Eğitmeni</p>
-<h3>Mesleki Bilgiler</h3>
-<p>Mesleki unvan, ilgili meslek örgütünden alınmıştır. Almanya'da yetkilendirilmiştir.</p>
+<p><strong>Müberra [Soyadı]</strong> — Beslenme Danışmanı, Yoga &amp; Pilates Eğitmeni</p>
 <h3>Sorumluluk Reddi</h3>
-<p>Bu web sitesindeki içerikler genel bilgilendirme amaçlıdır ve tıbbi tavsiye yerine geçmez. Herhangi bir sağlık kararı vermeden önce doktorunuza danışınız.</p>
+<p>Bu sitedeki içerikler genel bilgilendirme amaçlıdır ve tıbbi tavsiye niteliği taşımaz. Sağlık kararlarınız için doktorunuza danışınız.</p>
 <h3>Telif Hakkı</h3>
-<p>© 2025 Müberra Nutrition. Bu web sitesindeki tüm içerik, görsel ve metinler telif hakkıyla korunmaktadır. İzinsiz kopyalanamaz veya dağıtılamaz.</p>`,
-      en: `<h3>Service Provider</h3>
-<p><strong>Müberra Nutrition</strong><br>
-Nutrition Consulting, Yoga & Pilates<br>
-[Address Line 1]<br>
-[Address Line 2]<br>
-Germany</p>
+<p>© 2025 Müberra Nutrition. Tüm içerikler telif hakkıyla korunmaktadır. İzinsiz kopyalanamaz.</p>`,
+    cen:`<h3>Service Provider</h3>
+<p><strong>Müberra Nutrition</strong><br>Nutrition Consulting, Yoga &amp; Pilates<br>[Address Line 1], [City], Germany</p>
 <h3>Contact</h3>
-<p>Phone: <a href="tel:+49000000000">+49 (0) 000 000 0000</a><br>
-E-mail: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
+<p>Phone: <a href="tel:+49000000000">+49 (0) 000 000 0000</a><br>Email: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
 <h3>Person Responsible</h3>
-<p><strong>Müberra [Surname]</strong><br>
-Nutrition Consultant, Yoga & Pilates Instructor</p>
-<h3>Professional Information</h3>
-<p>Professional title granted by the relevant professional body. Authorised in Germany.</p>
+<p><strong>Müberra [Surname]</strong> — Nutrition Consultant, Yoga &amp; Pilates Instructor</p>
 <h3>Disclaimer</h3>
-<p>The content on this website is for general information purposes only and does not constitute medical advice. Please consult your doctor before making any health-related decisions.</p>
+<p>Content on this site is for general information only and does not constitute medical advice. Please consult your doctor before making health-related decisions.</p>
 <h3>Copyright</h3>
-<p>© 2025 Müberra Nutrition. All content, images and text on this website are protected by copyright. Unauthorised copying or distribution is prohibited.</p>`
-    }
+<p>© 2025 Müberra Nutrition. All content is protected by copyright. Unauthorised copying is prohibited.</p>`
   },
-  privacy: {
-    title: { tr: 'Gizlilik Politikası', en: 'Privacy Policy' },
-    body: {
-      tr: `<h3>1. Genel Bakış</h3>
-<p>Bu gizlilik politikası, Müberra Nutrition web sitesini ziyaret ettiğinizde kişisel verilerinizin nasıl toplandığını, kullanıldığını ve korunduğunu açıklamaktadır. Verilerinizi ciddiye alıyoruz ve Genel Veri Koruma Yönetmeliği (GDPR) kapsamındaki haklarınıza saygı gösteriyoruz.</p>
+  privacy:{
+    tr:'Gizlilik Politikası', en:'Privacy Policy',
+    ctr:`<h3>1. Genel Bakış</h3>
+<p>Bu politika, Müberra Nutrition web sitesinde kişisel verilerinizin nasıl işlendiğini açıklar. GDPR kapsamındaki haklarınıza saygı gösteriyoruz.</p>
 <h3>2. Toplanan Veriler</h3>
-<p><strong>İletişim formu aracılığıyla:</strong> Adınız, e-posta adresiniz ve mesajınız. Bu bilgiler yalnızca size yanıt vermek için kullanılır ve üçüncü taraflarla paylaşılmaz.</p>
-<p><strong>Teknik veriler:</strong> IP adresi, tarayıcı türü ve ziyaret tarihi gibi teknik bilgiler sunucu günlüklerinde otomatik olarak saklanabilir. Bu veriler istatistiksel amaçlarla kullanılır.</p>
-<h3>3. Verilerin Kullanımı</h3>
-<ul>
-<li>Sorularınıza ve taleplerinize yanıt vermek</li>
-<li>Randevu ve danışma hizmetleri sunmak</li>
-<li>Yasal yükümlülüklerimizi yerine getirmek</li>
-</ul>
-<h3>4. Veri Paylaşımı</h3>
-<p>Kişisel verileriniz hiçbir koşulda üçüncü şahıslara satılmaz, kiralanmaz veya pazarlama amacıyla kullanılmaz.</p>
-<h3>5. Çerezler</h3>
-<p>Bu web sitesi, dil tercihlerinizi hatırlamak için yalnızca <strong>işlevsel çerezler</strong> kullanır. Reklam veya izleme amacıyla çerez kullanılmamaktadır.</p>
-<h3>6. Haklarınız</h3>
-<p>GDPR kapsamında şu haklara sahipsiniz: verilerinize erişim, düzeltme, silme, işlemenin kısıtlanması ve itiraz etme. Talepleriniz için: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
-<h3>7. İletişim</h3>
-<p>Gizlilik politikamıza ilişkin sorularınız için bizimle iletişime geçebilirsiniz.</p>`,
-      en: `<h3>1. Overview</h3>
-<p>This privacy policy explains how your personal data is collected, used and protected when you visit the Müberra Nutrition website. We take your data seriously and respect your rights under the General Data Protection Regulation (GDPR).</p>
+<p><strong>İletişim formu:</strong> Adınız, e-posta adresiniz ve mesajınız — yalnızca size yanıt vermek için kullanılır, üçüncü taraflarla paylaşılmaz.</p>
+<p><strong>Teknik veriler:</strong> IP adresi, tarayıcı türü gibi bilgiler istatistiksel amaçlarla sunucu günlüklerinde saklanabilir.</p>
+<h3>3. Çerezler</h3>
+<p>Yalnızca dil tercihini hatırlamak amacıyla işlevsel çerezler kullanılmaktadır. Reklam veya izleme çerezi kullanılmamaktadır.</p>
+<h3>4. Haklarınız (GDPR)</h3>
+<p>Verilerinize erişim, düzeltme, silme ve itiraz haklarına sahipsiniz. Talepler için: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
+<h3>5. Veri Güvenliği</h3>
+<p>Verileriniz SSL şifrelemesiyle korunmaktadır. Kişisel veriler asla üçüncü şahıslara satılmaz veya kiralanmaz.</p>`,
+    cen:`<h3>1. Overview</h3>
+<p>This policy explains how your personal data is processed on the Müberra Nutrition website. We respect your rights under GDPR.</p>
 <h3>2. Data Collected</h3>
-<p><strong>Via the contact form:</strong> Your name, email address and message. This information is used solely to respond to you and is not shared with third parties.</p>
-<p><strong>Technical data:</strong> Technical information such as IP address, browser type and visit date may be stored automatically in server logs for statistical purposes.</p>
-<h3>3. Use of Data</h3>
-<ul>
-<li>To respond to your enquiries and requests</li>
-<li>To provide appointment and consulting services</li>
-<li>To fulfil our legal obligations</li>
-</ul>
-<h3>4. Data Sharing</h3>
-<p>Your personal data will never be sold, rented or used for marketing purposes by third parties under any circumstances.</p>
-<h3>5. Cookies</h3>
-<p>This website uses only <strong>functional cookies</strong> to remember your language preference. No advertising or tracking cookies are used.</p>
-<h3>6. Your Rights</h3>
-<p>Under GDPR, you have the right to: access, rectification, erasure, restriction of processing and objection. For requests: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
-<h3>7. Contact</h3>
-<p>If you have questions about our privacy policy, please do not hesitate to contact us.</p>`
-    }
+<p><strong>Contact form:</strong> Your name, email and message — used solely to respond to you, never shared with third parties.</p>
+<p><strong>Technical data:</strong> Information such as IP address and browser type may be stored in server logs for statistical purposes.</p>
+<h3>3. Cookies</h3>
+<p>Only functional cookies are used to remember your language preference. No advertising or tracking cookies are used.</p>
+<h3>4. Your Rights (GDPR)</h3>
+<p>You have the right to access, rectify, erase and object to your data. Requests: <a href="mailto:info@muberranutrition.de">info@muberranutrition.de</a></p>
+<h3>5. Data Security</h3>
+<p>Your data is protected with SSL encryption. Personal data is never sold or rented to third parties.</p>`
   },
-  faq: {
-    title: { tr: 'Sıkça Sorulan Sorular', en: 'Frequently Asked Questions' },
-    body: {
-      tr: `<div class="faq-list">
-  ${[
-    ['İlk danışma ücretsiz mi?', 'Evet! İlk 30 dakikalık tanışma görüşmesi tamamen ücretsiz ve bağlayıcı değildir. Bu görüşmede hedeflerinizi, yaşam tarzınızı ve beklentilerinizi konuşur, size en uygun programı birlikte belirlemeye çalışırız.'],
-    ['Online danışmanlık mevcut mu?', 'Evet, video görüşme yoluyla online danışmanlık hizmeti sunmaktayız. Böylece bulunduğunuz yerden fark etmeksizin profesyonel destek alabilirsiniz.'],
-    ['Beslenme programı kişiye özel mi hazırlanıyor?', 'Kesinlikle. Her danışan için yaşı, sağlık durumu, aktivite seviyesi, besin tercihleri ve hedefleri göz önüne alınarak tamamen kişiselleştirilmiş bir beslenme planı hazırlanmaktadır.'],
-    ['Yoga ve pilates için hangi seviyede katılabilirim?', 'Başlangıç seviyesinden ileri seviyeye kadar her seviyeye uygun programlarımız bulunmaktadır. Deneyiminiz olmasa da endişelenmeyin — sizin için doğru tempodan başlarız.'],
-    ['Sonuçları ne zaman görmeye başlarım?', 'Çoğu danışanımız ilk 2–4 hafta içinde enerji artışı ve genel iyilik halinde belirgin değişiklikler fark etmektedir. Kalıcı fiziksel sonuçlar genellikle 6–8 hafta içinde görülür; ancak bu süre kişiden kişiye değişir.'],
-    ['Seansı nasıl iptal veya erteleyebilirim?', 'Seans tarihinden en az 24 saat önce bize bildirmeniz yeterlidir. 24 saatten kısa süre kalan iptaller için seans ücreti tahsil edilebilir.'],
-    ['Hangi ödeme yöntemlerini kabul ediyorsunuz?', 'Banka transferi, kredi kartı ve PayPal ile ödeme kabul etmekteyiz. Birden fazla seans için paket fiyat seçenekleri de mevcuttur.'],
-    ['Beslenme programı diyet mi yoksa yaşam tarzı değişikliği mi?', 'Kısa vadeli diyetler yerine, uzun vadeli ve sürdürülebilir bir yaşam tarzı değişikliği hedeflenmektedir. Amacımız sizi bir diyet döngüsünden kurtararak gerçek ve kalıcı sağlık kazanımları elde etmenizi sağlamaktır.'],
-  ].map(([q,a], i) => `<div class="faq-item" id="faq-tr-${i}">
-    <button class="faq-q" onclick="toggleFaq('faq-tr-${i}')">
-      <span>${q}</span>
-      <span class="faq-icon">+</span>
-    </button>
-    <div class="faq-a">${a}</div>
-  </div>`).join('')}
-</div>`,
-      en: `<div class="faq-list">
-  ${[
-    ['Is the first consultation free?', 'Yes! The first 30-minute introductory session is completely free and non-binding. During this session we discuss your goals, lifestyle and expectations, and work together to determine the best programme for you.'],
-    ['Is online consulting available?', 'Yes, we offer online consulting via video call. This means you can receive professional support regardless of where you are located.'],
-    ['Is the nutrition plan personalised?', 'Absolutely. A fully personalised nutrition plan is prepared for each client, taking into account their age, health status, activity level, food preferences and goals.'],
-    ['What level can I join yoga and pilates at?', 'We have programmes suitable for every level from beginner to advanced. Even if you have no experience, don't worry — we start at the right pace for you.'],
-    ['When will I start seeing results?', 'Most of our clients notice a significant improvement in energy levels and overall well-being within the first 2–4 weeks. Lasting physical results typically appear within 6–8 weeks, though this varies from person to person.'],
-    ['How can I cancel or reschedule a session?', 'Simply let us know at least 24 hours before your session date. A session fee may be charged for cancellations made less than 24 hours in advance.'],
-    ['What payment methods do you accept?', 'We accept payment by bank transfer, credit card and PayPal. Package pricing options are also available for multiple sessions.'],
-    ['Is the nutrition programme a diet or a lifestyle change?', 'Rather than short-term diets, the goal is a long-term, sustainable lifestyle change. Our aim is to free you from a cycle of dieting and help you achieve real, lasting health gains.'],
-  ].map(([q,a], i) => `<div class="faq-item" id="faq-en-${i}">
-    <button class="faq-q" onclick="toggleFaq('faq-en-${i}')">
-      <span>${q}</span>
-      <span class="faq-icon">+</span>
-    </button>
-    <div class="faq-a">${a}</div>
-  </div>`).join('')}
-</div>`
-    }
+  faq:{
+    tr:'Sıkça Sorulan Sorular', en:'Frequently Asked Questions',
+    ctr:null, cen:null  // built dynamically below
   },
-  terms: {
-    title: { tr: 'Kullanım Şartları', en: 'Terms & Conditions' },
-    body: {
-      tr: `<h3>1. Genel Hükümler</h3>
-<p>Bu web sitesini kullanarak aşağıdaki kullanım şartlarını kabul etmiş sayılırsınız. Müberra Nutrition, bu şartları önceden haber vermeksizin değiştirme hakkını saklı tutar.</p>
+  terms:{
+    tr:'Kullanım Şartları', en:'Terms & Conditions',
+    ctr:`<h3>1. Genel Hükümler</h3>
+<p>Bu siteyi kullanarak aşağıdaki şartları kabul etmiş sayılırsınız. Müberra Nutrition bu şartları önceden haber vermeksizin güncelleme hakkını saklı tutar.</p>
 <h3>2. Hizmetlerin Kapsamı</h3>
-<p>Müberra Nutrition; bireysel beslenme danışmanlığı, online danışmanlık, yoga ve pilates seansları ile genel sağlıklı yaşam rehberliği sunmaktadır. Sunulan hizmetler <strong>tıbbi tedavinin yerini tutmaz</strong>.</p>
-<h3>3. Randevu ve İptal Politikası</h3>
-<ul>
-<li>Seanslar, mutabık kalınan tarih ve saatte gerçekleştirilir.</li>
-<li>İptaller en az <strong>24 saat önceden</strong> bildirilmelidir.</li>
-<li>Geç bildirilen iptaller veya gelmemeler için seans ücreti talep edilebilir.</li>
-<li>Danışman, katılımcıya ilişkin güvenlik veya sağlık endişesi duyduğunda seansı erteleme hakkını saklı tutar.</li>
-</ul>
-<h3>4. Ödeme Koşulları</h3>
-<p>Seanslar için ödeme, seans öncesinde veya mutabık kalınan ödeme planına göre yapılır. Ödemeler banka transferi, kredi kartı veya PayPal ile gerçekleştirilebilir.</p>
-<h3>5. Sorumluluk Sınırı</h3>
-<p>Müberra Nutrition, verilen beslenme ve yaşam tarzı tavsiyeleri sonucunda ortaya çıkabilecek kişisel sağlık sonuçlarından yasal olarak sorumlu tutulamaz. Tüm bireysel sağlık kararları danışanın kendi sorumluluğundadır.</p>
-<h3>6. Fikri Mülkiyet</h3>
-<p>Bu web sitesindeki tüm içerikler (metin, görsel, logo vb.) Müberra Nutrition'a aittir ve izinsiz kullanılamaz.</p>
-<h3>7. Uygulanacak Hukuk</h3>
-<p>Bu şartlar Alman hukukuna tabidir. Uyuşmazlıklarda yetkili mahkemeler hizmet sağlayıcının bulunduğu yerdeki mahkemelerdir.</p>`,
-      en: `<h3>1. General Provisions</h3>
-<p>By using this website, you are deemed to have accepted the following terms of use. Müberra Nutrition reserves the right to amend these terms without prior notice.</p>
+<p>Bireysel beslenme danışmanlığı, online danışmanlık, yoga ve pilates seansları sunulmaktadır. Hizmetler <strong>tıbbi tedavinin yerini tutmaz</strong>.</p>
+<h3>3. İptal Politikası</h3>
+<ul><li>İptaller en az <strong>24 saat önceden</strong> bildirilmelidir.</li><li>Geç iptaller veya gelmemeler için seans ücreti alınabilir.</li></ul>
+<h3>4. Ödeme</h3>
+<p>Seans öncesinde banka transferi, kredi kartı veya PayPal ile ödeme yapılır.</p>
+<h3>5. Sorumluluk</h3>
+<p>Müberra Nutrition, verilen tavsiyeler sonucu ortaya çıkabilecek bireysel sağlık sonuçlarından sorumlu tutulamaz.</p>
+<h3>6. Uygulanacak Hukuk</h3>
+<p>Bu şartlar Alman hukukuna tabidir.</p>`,
+    cen:`<h3>1. General Provisions</h3>
+<p>By using this site you agree to the following terms. Müberra Nutrition reserves the right to update these terms without prior notice.</p>
 <h3>2. Scope of Services</h3>
-<p>Müberra Nutrition provides individual nutrition consulting, online consulting, yoga and pilates sessions and general healthy lifestyle guidance. The services provided <strong>do not replace medical treatment</strong>.</p>
-<h3>3. Appointment and Cancellation Policy</h3>
-<ul>
-<li>Sessions take place at the agreed date and time.</li>
-<li>Cancellations must be notified at least <strong>24 hours in advance</strong>.</li>
-<li>A session fee may be charged for late cancellations or no-shows.</li>
-<li>The consultant reserves the right to postpone a session if safety or health concerns arise regarding the participant.</li>
-</ul>
-<h3>4. Payment Terms</h3>
-<p>Payment for sessions is made prior to the session or in accordance with the agreed payment plan. Payments can be made by bank transfer, credit card or PayPal.</p>
-<h3>5. Limitation of Liability</h3>
-<p>Müberra Nutrition cannot be held legally responsible for personal health outcomes arising from nutrition and lifestyle advice provided. All individual health decisions are the sole responsibility of the client.</p>
-<h3>6. Intellectual Property</h3>
-<p>All content on this website (text, images, logos etc.) belongs to Müberra Nutrition and may not be used without permission.</p>
-<h3>7. Governing Law</h3>
-<p>These terms are governed by German law. The courts at the location of the service provider shall have jurisdiction over any disputes.</p>`
-    }
+<p>Individual nutrition consulting, online consulting, yoga and pilates sessions are offered. Services <strong>do not replace medical treatment</strong>.</p>
+<h3>3. Cancellation Policy</h3>
+<ul><li>Cancellations must be notified at least <strong>24 hours in advance</strong>.</li><li>Late cancellations or no-shows may incur a session fee.</li></ul>
+<h3>4. Payment</h3>
+<p>Payment is made prior to the session by bank transfer, credit card or PayPal.</p>
+<h3>5. Liability</h3>
+<p>Müberra Nutrition cannot be held responsible for individual health outcomes arising from advice provided.</p>
+<h3>6. Governing Law</h3>
+<p>These terms are governed by German law.</p>`
   }
 };
 
-function openLegal(key) {
-  const content = legalContent[key];
-  if (!content) return;
+// Build FAQ content
+const _faqItems = {
+  tr:[
+    ['İlk danışma ücretsiz mi?','Evet! İlk 30 dakikalık tanışma görüşmesi tamamen ücretsiz ve bağlayıcı değildir.'],
+    ['Online danışmanlık mevcut mu?','Evet, video görüşme yoluyla online danışmanlık sunulmaktadır.'],
+    ['Beslenme programı kişiye özel mi?','Evet. Her danışan için yaşı, sağlık durumu, aktivite seviyesi ve hedefleri göz önüne alınarak kişisel plan hazırlanır.'],
+    ['Yoga ve pilates için hangi seviyede katılabilirim?','Başlangıç seviyesinden ileri seviyeye tüm seviyeler için program mevcuttur.'],
+    ['Sonuçları ne zaman görürüm?','Çoğu danışan 2–4 hafta içinde enerji artışı fark eder. Fiziksel sonuçlar genellikle 6–8 haftada görülür.'],
+    ['Seans nasıl iptal edilir?','Seans tarihinden en az 24 saat önce bildirim yapılması yeterlidir.'],
+    ['Hangi ödeme yöntemleri kabul ediliyor?','Banka transferi, kredi kartı ve PayPal kabul edilmektedir.'],
+    ['Bu bir diyet programı mı?','Hayır. Kısa vadeli diyetler yerine uzun vadeli ve sürdürülebilir yaşam tarzı değişikliği hedeflenmektedir.'],
+  ],
+  en:[
+    ['Is the first consultation free?','Yes! The first 30-minute introductory session is completely free and non-binding.'],
+    ['Is online consulting available?','Yes, online consulting via video call is available.'],
+    ['Is the nutrition plan personalised?','Absolutely. A fully personalised plan is prepared for each client based on their age, health, activity level and goals.'],
+    ['What level can I join yoga/pilates at?','Programmes are available for all levels from beginner to advanced.'],
+    ['When will I see results?','Most clients notice improved energy within 2–4 weeks. Physical results typically appear within 6–8 weeks.'],
+    ['How do I cancel a session?','Simply notify us at least 24 hours before your session.'],
+    ['What payment methods do you accept?','Bank transfer, credit card and PayPal are accepted.'],
+    ['Is this a diet programme?','No. The goal is a long-term, sustainable lifestyle change rather than short-term dieting.'],
+  ]
+};
+function _buildFaq(lang){
+  return _faqItems[lang].map((item,i)=>
+    `<div class="faq-row" id="faqr_${lang}_${i}">
+      <button class="faq-btn" onclick="toggleFaq('faqr_${lang}_${i}')">
+        <span>${item[0]}</span><span class="faq-plus">+</span>
+      </button>
+      <div class="faq-ans">${item[1]}</div>
+    </div>`
+  ).join('');
+}
+_legalData.faq.ctr = _buildFaq('tr');
+_legalData.faq.cen = _buildFaq('en');
+
+function openLegal(key){
+  const d = _legalData[key]; if(!d) return;
   const lang = currentLang;
-  document.getElementById('legalTitle').textContent = content.title[lang];
-  document.getElementById('legalBody').innerHTML = content.body[lang];
-  document.getElementById('legalOverlay').classList.add('open');
-  document.getElementById('legalPanel').classList.add('open');
+  document.getElementById('lpTitle').textContent = d[lang];
+  document.getElementById('lpBody').innerHTML = lang==='tr' ? d.ctr : d.cen;
+  document.getElementById('lpBg').classList.add('open');
+  document.getElementById('lpPanel').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-function closeLegal() {
-  document.getElementById('legalOverlay').classList.remove('open');
-  document.getElementById('legalPanel').classList.remove('open');
+function closeLegal(){
+  document.getElementById('lpBg').classList.remove('open');
+  document.getElementById('lpPanel').classList.remove('open');
   document.body.style.overflow = '';
 }
-function toggleFaq(id) {
-  const item = document.getElementById(id);
-  if (!item) return;
-  const wasOpen = item.classList.contains('open');
-  // Close all in same panel
-  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
-  if (!wasOpen) item.classList.add('open');
+function toggleFaq(id){
+  const row = document.getElementById(id); if(!row) return;
+  const wasOpen = row.classList.contains('is-open');
+  document.querySelectorAll('.faq-row.is-open').forEach(r=>r.classList.remove('is-open'));
+  if(!wasOpen) row.classList.add('is-open');
 }
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeLegal();
-});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLegal(); });
 
 </script>
+
+<!-- ── LEGAL PANEL ───────────────────────────────────────────────── -->
+<div class="lpanel-bg" id="lpBg" onclick="closeLegal()"></div>
+<div class="lpanel" id="lpPanel">
+  <div class="lpanel-grip" onclick="closeLegal()"></div>
+  <div class="lpanel-hd">
+    <h2 id="lpTitle"></h2>
+    <button class="lpanel-x" onclick="closeLegal()" aria-label="Kapat">✕</button>
+  </div>
+  <div class="lpanel-body" id="lpBody"></div>
+</div>
 
 </body>
 </html>
